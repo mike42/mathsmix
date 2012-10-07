@@ -15,11 +15,12 @@ class question_maker {
 		$this -> qm_name    = $row['qm_name'];
 		$this -> qm_class   = $row['qm_class'];
 		$this -> qm_created = $row['qm_created'];
+	}
 
 	public static function get($qm_id) {
 		$sql = "SELECT * FROM question_maker WHERE qm_id='%s'";
-		$res = Database::retrieve($sql, array($qm_id))
-		if($row = Database::get_row($res) {
+		$res = Database::retrieve($sql, array($qm_id));
+		if($row = Database::get_row($res)) {
 			return new question_maker($row);
 		}
 		return false;

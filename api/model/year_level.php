@@ -26,8 +26,8 @@ class year_level {
 
 	public static function get($yl_id) {
 		$sql = "SELECT * FROM year_level LEFT JOIN district ON year_level.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE yl_id='%s'";
-		$res = Database::retrieve($sql, array($yl_id))
-		if($row = Database::get_row($res) {
+		$res = Database::retrieve($sql, array($yl_id));
+		if($row = Database::get_row($res)) {
 			return new year_level($row);
 		}
 		return false;
@@ -35,8 +35,8 @@ class year_level {
 
 	public static function get_by_yl_level($yl_level, $district_id) {
 		$sql = "SELECT * FROM year_level LEFT JOIN district ON year_level.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE yl_level='%s' AND district_id='%s'";
-		$res = Database::retrieve($sql, array($yl_level, $district_id))
-		if($row = Database::get_row($res) {
+		$res = Database::retrieve($sql, array($yl_level, $district_id));
+		if($row = Database::get_row($res)) {
 			return new year_level($row);
 		}
 		return false;
@@ -44,8 +44,8 @@ class year_level {
 
 	public static function get_by_yl_name($yl_name, $district_id) {
 		$sql = "SELECT * FROM year_level LEFT JOIN district ON year_level.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE yl_name='%s' AND district_id='%s'";
-		$res = Database::retrieve($sql, array($yl_name, $district_id))
-		if($row = Database::get_row($res) {
+		$res = Database::retrieve($sql, array($yl_name, $district_id));
+		if($row = Database::get_row($res)) {
 			return new year_level($row);
 		}
 		return false;
@@ -61,9 +61,9 @@ class year_level {
 
 	public static function list_by_district_id($district_id) {
 		$sql = "SELECT * FROM year_level LEFT JOIN district ON year_level.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE district_id='%s';";
-		$res = Database::retrieve($sql, array($district_id))
+		$res = Database::retrieve($sql, array($district_id));
 		$ret = array();
-		while($row = Database::get_row($res) {
+		while($row = Database::get_row($res)) {
 			$ret[] = new year_level($row);
 		}
 		return $ret;

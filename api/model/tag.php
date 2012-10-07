@@ -9,11 +9,12 @@ class tag {
 	public function tag($row) {
 		$this -> tag_id   = $row['tag_id'];
 		$this -> tag_name = $row['tag_name'];
+	}
 
 	public static function get($tag_id) {
 		$sql = "SELECT * FROM tag WHERE tag_id='%s'";
-		$res = Database::retrieve($sql, array($tag_id))
-		if($row = Database::get_row($res) {
+		$res = Database::retrieve($sql, array($tag_id));
+		if($row = Database::get_row($res)) {
 			return new tag($row);
 		}
 		return false;

@@ -33,8 +33,8 @@ class classes {
 
 	public static function get($class_id) {
 		$sql = "SELECT * FROM classes LEFT JOIN year_level ON classes.yl_id = year_level.yl_id LEFT JOIN school ON classes.school_id = school.school_id LEFT JOIN district ON year_level.district_id = district.district_id LEFT JOIN user ON school.user_id = user.user_id LEFT JOIN country ON district.country_iso = country.country_iso LEFT JOIN domain ON user.domain_id = domain.domain_id WHERE class_id='%s'";
-		$res = Database::retrieve($sql, array($class_id))
-		if($row = Database::get_row($res) {
+		$res = Database::retrieve($sql, array($class_id));
+		if($row = Database::get_row($res)) {
 			return new classes($row);
 		}
 		return false;
@@ -50,9 +50,9 @@ class classes {
 
 	public static function list_by_yl_id($yl_id) {
 		$sql = "SELECT * FROM classes LEFT JOIN year_level ON classes.yl_id = year_level.yl_id LEFT JOIN school ON classes.school_id = school.school_id LEFT JOIN district ON year_level.district_id = district.district_id LEFT JOIN user ON school.user_id = user.user_id LEFT JOIN country ON district.country_iso = country.country_iso LEFT JOIN domain ON user.domain_id = domain.domain_id WHERE yl_id='%s';";
-		$res = Database::retrieve($sql, array($yl_id))
+		$res = Database::retrieve($sql, array($yl_id));
 		$ret = array();
-		while($row = Database::get_row($res) {
+		while($row = Database::get_row($res)) {
 			$ret[] = new classes($row);
 		}
 		return $ret;
@@ -60,9 +60,9 @@ class classes {
 
 	public static function list_by_school_id($school_id) {
 		$sql = "SELECT * FROM classes LEFT JOIN year_level ON classes.yl_id = year_level.yl_id LEFT JOIN school ON classes.school_id = school.school_id LEFT JOIN district ON year_level.district_id = district.district_id LEFT JOIN user ON school.user_id = user.user_id LEFT JOIN country ON district.country_iso = country.country_iso LEFT JOIN domain ON user.domain_id = domain.domain_id WHERE school_id='%s';";
-		$res = Database::retrieve($sql, array($school_id))
+		$res = Database::retrieve($sql, array($school_id));
 		$ret = array();
-		while($row = Database::get_row($res) {
+		while($row = Database::get_row($res)) {
 			$ret[] = new classes($row);
 		}
 		return $ret;

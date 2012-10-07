@@ -14,11 +14,12 @@ class question_viewer {
 		$this -> qv_name    = $row['qv_name'];
 		$this -> qv_class   = $row['qv_class'];
 		$this -> qv_created = $row['qv_created'];
+	}
 
 	public static function get($qv_id) {
 		$sql = "SELECT * FROM question_viewer WHERE qv_id='%s'";
-		$res = Database::retrieve($sql, array($qv_id))
-		if($row = Database::get_row($res) {
+		$res = Database::retrieve($sql, array($qv_id));
+		if($row = Database::get_row($res)) {
 			return new question_viewer($row);
 		}
 		return false;

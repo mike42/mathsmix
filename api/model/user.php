@@ -39,8 +39,8 @@ class user {
 
 	public static function get($user_id) {
 		$sql = "SELECT * FROM user LEFT JOIN domain ON user.domain_id = domain.domain_id LEFT JOIN school ON domain.school_id = school.school_id LEFT JOIN district ON school.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE user_id='%s'";
-		$res = Database::retrieve($sql, array($user_id))
-		if($row = Database::get_row($res) {
+		$res = Database::retrieve($sql, array($user_id));
+		if($row = Database::get_row($res)) {
 			return new user($row);
 		}
 		return false;
@@ -56,9 +56,9 @@ class user {
 
 	public static function list_by_domain_id($domain_id) {
 		$sql = "SELECT * FROM user LEFT JOIN domain ON user.domain_id = domain.domain_id LEFT JOIN school ON domain.school_id = school.school_id LEFT JOIN district ON school.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE domain_id='%s';";
-		$res = Database::retrieve($sql, array($domain_id))
+		$res = Database::retrieve($sql, array($domain_id));
 		$ret = array();
-		while($row = Database::get_row($res) {
+		while($row = Database::get_row($res)) {
 			$ret[] = new user($row);
 		}
 		return $ret;

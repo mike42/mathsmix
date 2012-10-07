@@ -25,8 +25,8 @@ class domain {
 
 	public static function get($domain_id) {
 		$sql = "SELECT * FROM domain LEFT JOIN school ON domain.school_id = school.school_id LEFT JOIN user ON school.user_id = user.user_id LEFT JOIN district ON school.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE domain_id='%s'";
-		$res = Database::retrieve($sql, array($domain_id))
-		if($row = Database::get_row($res) {
+		$res = Database::retrieve($sql, array($domain_id));
+		if($row = Database::get_row($res)) {
 			return new domain($row);
 		}
 		return false;
@@ -34,8 +34,8 @@ class domain {
 
 	public static function get_by_domain_host($domain_host) {
 		$sql = "SELECT * FROM domain LEFT JOIN school ON domain.school_id = school.school_id LEFT JOIN user ON school.user_id = user.user_id LEFT JOIN district ON school.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE domain_host='%s'";
-		$res = Database::retrieve($sql, array($domain_host))
-		if($row = Database::get_row($res) {
+		$res = Database::retrieve($sql, array($domain_host));
+		if($row = Database::get_row($res)) {
 			return new domain($row);
 		}
 		return false;
@@ -51,9 +51,9 @@ class domain {
 
 	public static function list_by_school_id($school_id) {
 		$sql = "SELECT * FROM domain LEFT JOIN school ON domain.school_id = school.school_id LEFT JOIN user ON school.user_id = user.user_id LEFT JOIN district ON school.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE school_id='%s';";
-		$res = Database::retrieve($sql, array($school_id))
+		$res = Database::retrieve($sql, array($school_id));
 		$ret = array();
-		while($row = Database::get_row($res) {
+		while($row = Database::get_row($res)) {
 			$ret[] = new domain($row);
 		}
 		return $ret;

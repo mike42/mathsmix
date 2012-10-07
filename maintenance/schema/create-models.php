@@ -113,8 +113,9 @@ foreach($table as $name => $current) {
 		foreach($current['references'] as $references => $fields) {
 			$str .= "\t\t\$this -> " . $references . " = new $references(\$row);\n";
 		}
-		$str .= "\t}\n";
+
 	}
+	$str .= "\t}\n";
 		
 	if(!isset($current['index']['primary'])) {
 		/* PK check */
@@ -170,8 +171,8 @@ function get($table, $fname, $name, $current, $index) {
 	}
 	$str = "\n\tpublic static function $fname(".implode(", ", $fieldlist).") {\n";
 	$str .= "\t\t\$sql = \"".build_w_references($table, $name, $current)." WHERE " . implode(" AND ", $fieldlist_sql)."\";\n";	
-	$str .= "\t\t\$res = Database::retrieve(\$sql, array(".implode(", ", $fieldlist)."))\n";
-	$str .= "\t\tif(\$row = Database::get_row(\$res) {\n";
+	$str .= "\t\t\$res = Database::retrieve(\$sql, array(".implode(", ", $fieldlist)."));\n";
+	$str .= "\t\tif(\$row = Database::get_row(\$res)) {\n";
 	$str .= "\t\t\treturn new $name(\$row);\n";
 	$str .= "\t\t}\n";
 	$str .= "\t\treturn false;\n";
@@ -187,9 +188,9 @@ function listBy($table, $fname, $name, $current, $index) {
 	}
 	$str = "\n\tpublic static function $fname(".implode(", ", $fieldlist).") {\n";
 	$str .= "\t\t\$sql = \"".build_w_references($table, $name, $current)." WHERE " . implode(" AND ", $fieldlist_sql).";\";\n";
-	$str .= "\t\t\$res = Database::retrieve(\$sql, array(".implode(", ", $fieldlist)."))\n";
+	$str .= "\t\t\$res = Database::retrieve(\$sql, array(".implode(", ", $fieldlist)."));\n";
 	$str .= "\t\t\$ret = array();\n";
-	$str .= "\t\twhile(\$row = Database::get_row(\$res) {\n";
+	$str .= "\t\twhile(\$row = Database::get_row(\$res)) {\n";
 	$str .= "\t\t\t\$ret[] = new $name(\$row);\n";
 	$str .= "\t\t}\n";
 	$str .= "\t\treturn \$ret;\n";

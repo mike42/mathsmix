@@ -27,8 +27,8 @@ class activity_template {
 
 	public static function get($at_id) {
 		$sql = "SELECT * FROM activity_template LEFT JOIN user ON activity_template.user_id = user.user_id LEFT JOIN domain ON user.domain_id = domain.domain_id LEFT JOIN school ON domain.school_id = school.school_id LEFT JOIN district ON school.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE at_id='%s'";
-		$res = Database::retrieve($sql, array($at_id))
-		if($row = Database::get_row($res) {
+		$res = Database::retrieve($sql, array($at_id));
+		if($row = Database::get_row($res)) {
 			return new activity_template($row);
 		}
 		return false;
@@ -44,9 +44,9 @@ class activity_template {
 
 	public static function list_by_user_id($user_id) {
 		$sql = "SELECT * FROM activity_template LEFT JOIN user ON activity_template.user_id = user.user_id LEFT JOIN domain ON user.domain_id = domain.domain_id LEFT JOIN school ON domain.school_id = school.school_id LEFT JOIN district ON school.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE user_id='%s';";
-		$res = Database::retrieve($sql, array($user_id))
+		$res = Database::retrieve($sql, array($user_id));
 		$ret = array();
-		while($row = Database::get_row($res) {
+		while($row = Database::get_row($res)) {
 			$ret[] = new activity_template($row);
 		}
 		return $ret;

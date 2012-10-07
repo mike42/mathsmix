@@ -29,8 +29,8 @@ class activity_template_qm {
 
 	public static function get($atqm_id) {
 		$sql = "SELECT * FROM activity_template_qm LEFT JOIN activity_template ON activity_template_qm.at_id = activity_template.at_id LEFT JOIN question_usage ON activity_template_qm.qu_id = question_usage.qu_id LEFT JOIN user ON activity_template.user_id = user.user_id LEFT JOIN question_viewer ON question_usage.qv_id = question_viewer.qv_id LEFT JOIN question_maker ON question_usage.qm_id = question_maker.qm_id LEFT JOIN domain ON user.domain_id = domain.domain_id LEFT JOIN school ON domain.school_id = school.school_id LEFT JOIN district ON school.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE atqm_id='%s'";
-		$res = Database::retrieve($sql, array($atqm_id))
-		if($row = Database::get_row($res) {
+		$res = Database::retrieve($sql, array($atqm_id));
+		if($row = Database::get_row($res)) {
 			return new activity_template_qm($row);
 		}
 		return false;
@@ -38,8 +38,8 @@ class activity_template_qm {
 
 	public static function get_by_activity_template($at_id, $atqm_no) {
 		$sql = "SELECT * FROM activity_template_qm LEFT JOIN activity_template ON activity_template_qm.at_id = activity_template.at_id LEFT JOIN question_usage ON activity_template_qm.qu_id = question_usage.qu_id LEFT JOIN user ON activity_template.user_id = user.user_id LEFT JOIN question_viewer ON question_usage.qv_id = question_viewer.qv_id LEFT JOIN question_maker ON question_usage.qm_id = question_maker.qm_id LEFT JOIN domain ON user.domain_id = domain.domain_id LEFT JOIN school ON domain.school_id = school.school_id LEFT JOIN district ON school.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE at_id='%s' AND atqm_no='%s'";
-		$res = Database::retrieve($sql, array($at_id, $atqm_no))
-		if($row = Database::get_row($res) {
+		$res = Database::retrieve($sql, array($at_id, $atqm_no));
+		if($row = Database::get_row($res)) {
 			return new activity_template_qm($row);
 		}
 		return false;
@@ -55,9 +55,9 @@ class activity_template_qm {
 
 	public static function list_by_qu_id($qu_id) {
 		$sql = "SELECT * FROM activity_template_qm LEFT JOIN activity_template ON activity_template_qm.at_id = activity_template.at_id LEFT JOIN question_usage ON activity_template_qm.qu_id = question_usage.qu_id LEFT JOIN user ON activity_template.user_id = user.user_id LEFT JOIN question_viewer ON question_usage.qv_id = question_viewer.qv_id LEFT JOIN question_maker ON question_usage.qm_id = question_maker.qm_id LEFT JOIN domain ON user.domain_id = domain.domain_id LEFT JOIN school ON domain.school_id = school.school_id LEFT JOIN district ON school.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE qu_id='%s';";
-		$res = Database::retrieve($sql, array($qu_id))
+		$res = Database::retrieve($sql, array($qu_id));
 		$ret = array();
-		while($row = Database::get_row($res) {
+		while($row = Database::get_row($res)) {
 			$ret[] = new activity_template_qm($row);
 		}
 		return $ret;
@@ -65,9 +65,9 @@ class activity_template_qm {
 
 	public static function list_by_at_id($at_id) {
 		$sql = "SELECT * FROM activity_template_qm LEFT JOIN activity_template ON activity_template_qm.at_id = activity_template.at_id LEFT JOIN question_usage ON activity_template_qm.qu_id = question_usage.qu_id LEFT JOIN user ON activity_template.user_id = user.user_id LEFT JOIN question_viewer ON question_usage.qv_id = question_viewer.qv_id LEFT JOIN question_maker ON question_usage.qm_id = question_maker.qm_id LEFT JOIN domain ON user.domain_id = domain.domain_id LEFT JOIN school ON domain.school_id = school.school_id LEFT JOIN district ON school.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE at_id='%s';";
-		$res = Database::retrieve($sql, array($at_id))
+		$res = Database::retrieve($sql, array($at_id));
 		$ret = array();
-		while($row = Database::get_row($res) {
+		while($row = Database::get_row($res)) {
 			$ret[] = new activity_template_qm($row);
 		}
 		return $ret;

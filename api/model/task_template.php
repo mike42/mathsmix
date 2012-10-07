@@ -40,8 +40,8 @@ class task_template {
 
 	public static function get($tt_id) {
 		$sql = "SELECT * FROM task_template LEFT JOIN activity_template ON task_template.at_id = activity_template.at_id LEFT JOIN year_level ON task_template.yl_id = year_level.yl_id LEFT JOIN user ON task_template.user_id = user.user_id LEFT JOIN district ON year_level.district_id = district.district_id LEFT JOIN domain ON user.domain_id = domain.domain_id LEFT JOIN country ON district.country_iso = country.country_iso LEFT JOIN school ON domain.school_id = school.school_id WHERE tt_id='%s'";
-		$res = Database::retrieve($sql, array($tt_id))
-		if($row = Database::get_row($res) {
+		$res = Database::retrieve($sql, array($tt_id));
+		if($row = Database::get_row($res)) {
 			return new task_template($row);
 		}
 		return false;
@@ -57,9 +57,9 @@ class task_template {
 
 	public static function list_by_at_id($at_id) {
 		$sql = "SELECT * FROM task_template LEFT JOIN activity_template ON task_template.at_id = activity_template.at_id LEFT JOIN year_level ON task_template.yl_id = year_level.yl_id LEFT JOIN user ON task_template.user_id = user.user_id LEFT JOIN district ON year_level.district_id = district.district_id LEFT JOIN domain ON user.domain_id = domain.domain_id LEFT JOIN country ON district.country_iso = country.country_iso LEFT JOIN school ON domain.school_id = school.school_id WHERE at_id='%s';";
-		$res = Database::retrieve($sql, array($at_id))
+		$res = Database::retrieve($sql, array($at_id));
 		$ret = array();
-		while($row = Database::get_row($res) {
+		while($row = Database::get_row($res)) {
 			$ret[] = new task_template($row);
 		}
 		return $ret;
@@ -67,9 +67,9 @@ class task_template {
 
 	public static function list_by_yl_id($yl_id) {
 		$sql = "SELECT * FROM task_template LEFT JOIN activity_template ON task_template.at_id = activity_template.at_id LEFT JOIN year_level ON task_template.yl_id = year_level.yl_id LEFT JOIN user ON task_template.user_id = user.user_id LEFT JOIN district ON year_level.district_id = district.district_id LEFT JOIN domain ON user.domain_id = domain.domain_id LEFT JOIN country ON district.country_iso = country.country_iso LEFT JOIN school ON domain.school_id = school.school_id WHERE yl_id='%s';";
-		$res = Database::retrieve($sql, array($yl_id))
+		$res = Database::retrieve($sql, array($yl_id));
 		$ret = array();
-		while($row = Database::get_row($res) {
+		while($row = Database::get_row($res)) {
 			$ret[] = new task_template($row);
 		}
 		return $ret;
@@ -77,9 +77,9 @@ class task_template {
 
 	public static function list_by_user_id($user_id) {
 		$sql = "SELECT * FROM task_template LEFT JOIN activity_template ON task_template.at_id = activity_template.at_id LEFT JOIN year_level ON task_template.yl_id = year_level.yl_id LEFT JOIN user ON task_template.user_id = user.user_id LEFT JOIN district ON year_level.district_id = district.district_id LEFT JOIN domain ON user.domain_id = domain.domain_id LEFT JOIN country ON district.country_iso = country.country_iso LEFT JOIN school ON domain.school_id = school.school_id WHERE user_id='%s';";
-		$res = Database::retrieve($sql, array($user_id))
+		$res = Database::retrieve($sql, array($user_id));
 		$ret = array();
-		while($row = Database::get_row($res) {
+		while($row = Database::get_row($res)) {
 			$ret[] = new task_template($row);
 		}
 		return $ret;

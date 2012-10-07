@@ -16,11 +16,12 @@ class year_week {
 		$this -> yw_week  = $row['yw_week'];
 		$this -> yw_start = $row['yw_start'];
 		$this -> yw_end   = $row['yw_end'];
+	}
 
 	public static function get($yw_id) {
 		$sql = "SELECT * FROM year_week WHERE yw_id='%s'";
-		$res = Database::retrieve($sql, array($yw_id))
-		if($row = Database::get_row($res) {
+		$res = Database::retrieve($sql, array($yw_id));
+		if($row = Database::get_row($res)) {
 			return new year_week($row);
 		}
 		return false;
@@ -28,8 +29,8 @@ class year_week {
 
 	public static function get_by_yw_yearwk($yw_year, $yw_week) {
 		$sql = "SELECT * FROM year_week WHERE yw_year='%s' AND yw_week='%s'";
-		$res = Database::retrieve($sql, array($yw_year, $yw_week))
-		if($row = Database::get_row($res) {
+		$res = Database::retrieve($sql, array($yw_year, $yw_week));
+		if($row = Database::get_row($res)) {
 			return new year_week($row);
 		}
 		return false;
@@ -45,9 +46,9 @@ class year_week {
 
 	public static function list_by_yw_year($yw_year) {
 		$sql = "SELECT * FROM year_week WHERE yw_year='%s';";
-		$res = Database::retrieve($sql, array($yw_year))
+		$res = Database::retrieve($sql, array($yw_year));
 		$ret = array();
-		while($row = Database::get_row($res) {
+		while($row = Database::get_row($res)) {
 			$ret[] = new year_week($row);
 		}
 		return $ret;

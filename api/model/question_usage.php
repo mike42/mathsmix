@@ -29,8 +29,8 @@ class question_usage {
 
 	public static function get($qu_id) {
 		$sql = "SELECT * FROM question_usage LEFT JOIN question_viewer ON question_usage.qv_id = question_viewer.qv_id LEFT JOIN question_maker ON question_usage.qm_id = question_maker.qm_id WHERE qu_id='%s'";
-		$res = Database::retrieve($sql, array($qu_id))
-		if($row = Database::get_row($res) {
+		$res = Database::retrieve($sql, array($qu_id));
+		if($row = Database::get_row($res)) {
 			return new question_usage($row);
 		}
 		return false;
@@ -46,9 +46,9 @@ class question_usage {
 
 	public static function list_by_qm_id($qm_id) {
 		$sql = "SELECT * FROM question_usage LEFT JOIN question_viewer ON question_usage.qv_id = question_viewer.qv_id LEFT JOIN question_maker ON question_usage.qm_id = question_maker.qm_id WHERE qm_id='%s';";
-		$res = Database::retrieve($sql, array($qm_id))
+		$res = Database::retrieve($sql, array($qm_id));
 		$ret = array();
-		while($row = Database::get_row($res) {
+		while($row = Database::get_row($res)) {
 			$ret[] = new question_usage($row);
 		}
 		return $ret;
@@ -56,9 +56,9 @@ class question_usage {
 
 	public static function list_by_qv_id($qv_id) {
 		$sql = "SELECT * FROM question_usage LEFT JOIN question_viewer ON question_usage.qv_id = question_viewer.qv_id LEFT JOIN question_maker ON question_usage.qm_id = question_maker.qm_id WHERE qv_id='%s';";
-		$res = Database::retrieve($sql, array($qv_id))
+		$res = Database::retrieve($sql, array($qv_id));
 		$ret = array();
-		while($row = Database::get_row($res) {
+		while($row = Database::get_row($res)) {
 			$ret[] = new question_usage($row);
 		}
 		return $ret;

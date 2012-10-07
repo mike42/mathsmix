@@ -26,8 +26,8 @@ class district {
 
 	public static function get($district_id) {
 		$sql = "SELECT * FROM district LEFT JOIN country ON district.country_iso = country.country_iso WHERE district_id='%s'";
-		$res = Database::retrieve($sql, array($district_id))
-		if($row = Database::get_row($res) {
+		$res = Database::retrieve($sql, array($district_id));
+		if($row = Database::get_row($res)) {
 			return new district($row);
 		}
 		return false;
@@ -43,9 +43,9 @@ class district {
 
 	public static function list_by_country_iso($country_iso) {
 		$sql = "SELECT * FROM district LEFT JOIN country ON district.country_iso = country.country_iso WHERE country_iso='%s';";
-		$res = Database::retrieve($sql, array($country_iso))
+		$res = Database::retrieve($sql, array($country_iso));
 		$ret = array();
-		while($row = Database::get_row($res) {
+		while($row = Database::get_row($res)) {
 			$ret[] = new district($row);
 		}
 		return $ret;
