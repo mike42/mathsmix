@@ -1,0 +1,14 @@
+<?
+$config['core']['webroot'] = isset($_SERVER['HTTP_HOST'])? 'http://'.$_SERVER['HTTP_HOST'].'/mix/' : '';
+$config['core']['default']['controller'] = 'page';
+$config['core']['default']['action'] = 'view';
+$config['core']['default']['arg'] = array('home');
+$config['core']['default']['format'] = 'html';
+
+/* Database */
+$config['database']['user'] = '';
+$config['database']['password'] = '';
+$config['database']['host'] = 'localhost';
+$config['database']['name'] = '';
+
+?>
