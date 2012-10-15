@@ -160,7 +160,7 @@ foreach($table as $name => $current) {
 	$str .= "}\n";
 	$str .= "?>";
 	
-	file_put_contents(dirname(__FILE__)."/model/$name.php", $str);
+	file_put_contents(dirname(__FILE__)."/model/".$name."_model.php", $str);
 }
 
 function get($table, $fname, $name, $current, $index) {
