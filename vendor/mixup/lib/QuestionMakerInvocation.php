@@ -4,8 +4,13 @@ class QuestionMakerInvocation {
 	public $viewer;
 	public $maker;
 	public $arg;
+	public $comment;
 	
 	public function QuestionMakerInvocation($string) {
+		if(trim($string) == "") {
+			throw new Exception("Invocation string was empty.");
+		}
+		
 		/* Set original invocation string */
 		$this -> invocation_string = $string;
 		
@@ -20,9 +25,11 @@ class QuestionMakerInvocation {
 		$this -> arg = $part['arg'];
 		$remainder = $part['remainder'];
 		
-		/* AAAAA */
-		echo $remainder;
-		
+		/* Get comment if set */
+		if(!(strpos($remainder, "#") === false)) {
+			$i = strpos($remainder, "#") + 1;
+			$this -> comment = trim(substr($remainder, $i, strlen($remainder) - $i));
+		}		
 		return;
 	}
 	
@@ -32,12 +39,16 @@ class QuestionMakerInvocation {
 	 * @return string the invocation string minus the viewer name
 	 */
 	private function process_viewer() {
-		$l = strpos($this -> invocation_string, ' ');
-		// TODO: failure case if string contains no spaces before first open bracket */
-		$this -> viewer = substr($this -> invocation_string, 0, $l);
+		if(($l = strpos($this -> invocation_string, ' ')) === false) {
+			throw new Exception("Unable to determine the viewer and maker to use. Invocation should start with two words (no spaces found)");
+		}
+		/* Get left-of-space and strip to allowed characters */
+		$viewer = substr($this -> invocation_string, 0, $l);
+		$this -> viewer = $this -> cleanse_string(strtolower($viewer));
+		
 		/* Now skip the space and return the rest of the string */
 		$l++;
-		return substr($this -> invocation_string, $l, strlen($this -> invocation_string) - $l);
+		return trim(substr($this -> invocation_string, $l, strlen($this -> invocation_string) - $l));
 	}
 	
 	/**
@@ -45,14 +56,19 @@ class QuestionMakerInvocation {
 	 * @return string portion of the invocation to the right of the viewer name
 	 */
 	private function process_maker($remaining_invocation_string) {
-		$l = strpos($remaining_invocation_string, '(');
-		$this -> maker = trim(substr($remaining_invocation_string, 0, $l));
+		if(($l = strpos($remaining_invocation_string, '(')) === false) {
+			throw new Exception("Must encapsulate arguments in brackets ( )");
+		}
+		$maker = trim(substr($remaining_invocation_string, 0, $l));
+		$this -> maker = $this -> cleanse_string(strtolower($maker));
+		
+		if($this -> maker == "") {
+			throw new Exception("Could not determine viewer and maker -- Invocation must start with two words eg. \"inline add( ... )\" not \"add( ... )\"");
+		}
 		return trim(substr($remaining_invocation_string, $l, strlen($remaining_invocation_string) - $l));
 	}
 	
 	private function get_arguments($text) {
-		echo $text."\n";
-		sleep(1);
 		$arg = array();
 		$current = "";
 		
@@ -167,6 +183,18 @@ class QuestionMakerInvocation {
 	
 		/* No close brace */
 		throw new Exception('Missing close brace in expression.');
+	}
+	
+	private function cleanse_string($input, $chars = "abcdefghijklmnopqrstuvwxyz_") {
+		$outp = "";
+		$l = strlen($input);
+		for($i = 0; $i < $l; $i++) {
+			$c = substr($input, $i, 1);
+			if(!(strpos($chars, $c) === false)) {
+				$outp .= $c;
+			}
+		}
+		return $outp;
 	}
 }
 ?>

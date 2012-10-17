@@ -1,12 +1,12 @@
 <?php
 abstract class QuestionViewer {
 	/* Provide a few invocation examples */
-	public abstract function listExamples();
+	public abstract static function listExamples();
 
 	/* Provide a short description of the question viewer */
-	public abstract function getDescription();
+	public abstract static function getDescription();
 
 	/* Output to HTML form */
-	public abstract function toHTML($question, $answers);
+	public abstract static function toHTML(QuestionViewerInvocation $invocation);
 }
 ?>

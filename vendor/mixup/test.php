@@ -3,7 +3,10 @@
 require_once("MixUp.php");
 
 /* Example of the kind of interface we're aiming for */
-echo MixUp::generateQuestion("inline add({2,3}, 0, \"foo{ aaa\\\" } \", foo foo random: {1,100} foo bar, (baz, quux, {3,5}))");
+echo MixUp::generateQuestion("inline add(3, 2, 1, 0) # 3 term addition, 2 digit numbers + 1 after decimal place, no negatives");
+echo MixUp::generateQuestion("inline add(5, 2, 1, 1) # 5 term addition, 3 digit numbers (no decimals), negatives allowed");
+echo MixUp::generateQuestion("inline add((5, 1, 0), (7, 1, 1)) # add a 5 digit positive number and a 7 digit negative number, 1 decimal place.");
+
 //echo MixUp::questionToHTML("inline(\"5 + 4 + 2\") = 11");
 
 
