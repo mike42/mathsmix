@@ -5,3 +5,7 @@
 .buildpath
 .project
 .settings/*
+
+# The site config file
+api/config.php
+

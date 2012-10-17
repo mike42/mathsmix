@@ -1,0 +1,7 @@
+# Re-write requests to /mix/ to use /m/index.php
+RewriteEngine On
+RewriteCond %{DOCUMENT_ROOT}/%{REQUEST_FILENAME} !-f
+RewriteCond %{DOCUMENT_ROOT}/%{REQUEST_FILENAME} !-d
+RewriteRule ^/?mix/style(.*)$ /m/public/style/$1 [PT,L,QSA]
+RewriteRule /?mix$ /mix/ [R,L]
+RewriteRule ^/?mix/(.*)$ /m/index.php?p=$1 [PT,L,QSA]
