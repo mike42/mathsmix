@@ -1,5 +1,5 @@
 <?php 
-class QM_add extends QuestionMaker {
+class QM_mult extends QuestionMaker {
 	public static function listExamples() {
 		return array(
 			"mult inline(5, 2)");
