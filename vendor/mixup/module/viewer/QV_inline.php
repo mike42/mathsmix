@@ -1,17 +1,19 @@
 <?php 
 class QV_inline extends QuestionViewer {
-	public function listExamples() {
+	public static function listExamples() {
 		return array(
 			"inline(\"1 + 1\") = (2)");
 	}
 
-	public function getDescription() {
+	public static function getDescription() {
 		return "Show a question in a single line with the answer box on the right";
 	}
-	
-	public function toHTML($invocation) {
-		print_r($invocation);
-		return "";
+
+	public static function toHTML(QuestionViewerInvocation $invocation) {
+		return "<div class=\"qv-inline\">" . 
+				$invocation -> arg[0] . 
+				" = <input type=\"text\" value=\"\"/>" .
+				"</div>";
 	}
 }
 

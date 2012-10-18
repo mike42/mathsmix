@@ -13,12 +13,17 @@ function __autoload($class_name) {
 }
 
 class MixUp {
+	/* Number of digits to perform all calculations to */
+	public static $PRECISION_MAX = 100;
+
 	public static function generateQuestion($string) {
 		$invocation = new QuestionMakerInvocation($string);
 		return call_user_func_array(array("QM_". $invocation -> maker, "make"), array($invocation));
 	}
 
 	public static function questionToHTML($string) {
+		$invocation = new QuestionViewerInvocation($string);
+		return call_user_func_array(array("QV_". $invocation -> viewer, "toHTML"), array($invocation));
 		return false;
 	}
 	
