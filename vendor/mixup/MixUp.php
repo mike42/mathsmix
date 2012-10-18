@@ -15,8 +15,7 @@ function __autoload($class_name) {
 class MixUp {
 	public static function generateQuestion($string) {
 		$invocation = new QuestionMakerInvocation($string);
-		call_user_func_array(array("QM_". $invocation -> maker, "make"), array($invocation));
-		return false;
+		return call_user_func_array(array("QM_". $invocation -> maker, "make"), array($invocation));
 	}
 
 	public static function questionToHTML($string) {
@@ -48,13 +47,6 @@ class MixUp {
 			}
 		}
 		return true;
-	}
-	
-	public static function makeNumber($digits, $decimal = 0, $negative = false) {
-		for($i = 0; $i < digits; $i++) {
-			// TODO make number
-		}
-		return 0;
 	}
 }
 ?>
