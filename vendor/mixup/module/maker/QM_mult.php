@@ -2,7 +2,7 @@
 class QM_add extends QuestionMaker {
 	public static function listExamples() {
 		return array(
-			"sub inline(5, 2)");
+			"mult inline(5, 2)");
 	}
 
 	public static function listViewers() {
@@ -10,7 +10,7 @@ class QM_add extends QuestionMaker {
 	}
 	
 	public static function getDescription() {
-		return "Subtraction problems";
+		return "Addition problems";
 	}
 	
 	public static function make(QuestionMakerInvocation $invocation) {
@@ -18,13 +18,13 @@ class QM_add extends QuestionMaker {
 		
 		/* Sum them up */
 		bcscale(MixUp::$PRECISION_MAX);
-		$sum = array_shift($terms);
+		$product = array_shift($terms);
 		foreach($terms as $term) {
-			$sum = bcsub($sum, $term);
+			$product = bcmul($product, $term);
 		}
 		
-		$sum = self::removeTrailingZeroes($sum);
-		return "inline(\"".implode(" - ", $terms)."\") = (" . $sum . ")";
+		$product = self::removeTrailingZeroes($product);
+		return "inline(\"".implode(" × ", $terms)."\") = (" . $product. ")";
 	}
 }
 ?>
