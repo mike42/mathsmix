@@ -10,7 +10,7 @@ class QM_mult extends QuestionMaker {
 	}
 	
 	public static function getDescription() {
-		return "Addition problems";
+		return "Multiplication problems";
 	}
 	
 	public static function make(QuestionMakerInvocation $invocation) {
