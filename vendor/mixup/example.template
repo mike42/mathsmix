@@ -1,0 +1,5 @@
+add inline(3, 2, 1, 0) # 3 term addition, 2 digit numbers + 1 after decimal place, no negatives
+sub inline(5, 2, 1, 1) # 5 term subtraction, 3 digit numbers (no decimals), negatives allowed
+mult inline((5, 1, 0), (7, 1, 1)) # multiply a 5 digit number by a 7 digit negative number, each with 1 decimal
+pow inline({1, 12}, 2) # {1, 12} ^ 2
+pow worded({1, 9}, {2, 3}) # {9, 12} ^ {2, 3} in words

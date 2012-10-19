@@ -1,5 +1,5 @@
 <?php 
-class QM_add extends QuestionMaker {
+class QM_sub extends QuestionMaker {
 	public static function listExamples() {
 		return array(
 			"sub inline(5, 2)");
@@ -18,8 +18,9 @@ class QM_add extends QuestionMaker {
 		
 		/* Sum them up */
 		bcscale(MixUp::$PRECISION_MAX);
-		$sum = array_shift($terms);
-		foreach($terms as $term) {
+		$todo = $terms;
+		$sum = array_shift($todo);
+		foreach($todo as $term) {
 			$sum = bcsub($sum, $term);
 		}
 		

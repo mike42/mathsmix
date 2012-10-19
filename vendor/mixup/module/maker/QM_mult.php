@@ -18,8 +18,9 @@ class QM_mult extends QuestionMaker {
 		
 		/* Sum them up */
 		bcscale(MixUp::$PRECISION_MAX);
-		$product = array_shift($terms);
-		foreach($terms as $term) {
+		$todo = $terms;
+		$product = array_shift($todo);
+		foreach($todo as $term) {
 			$product = bcmul($product, $term);
 		}
 		
