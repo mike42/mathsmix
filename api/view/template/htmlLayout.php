@@ -22,23 +22,28 @@
 	<div id="container" class="hfeed">
 		<div id="header">
 			<div id="logo">
-				<a href="http://example.com"><img
+				<a href="<?php echo core::constructURL('page', 'view', array('home'), 'html'); ?>"><img
 					src="style/images/default-logo.png" alt="MathsMix home"
 					height="100" width="300"></a>
 			</div>
 			<!-- end of #logo -->
 
 			<ul class="menu l_tinynav1">
-				<li class="current_page_item"><a href="http://example.com"
+				<li><a href="<?php echo core::constructURL('page', 'view', array('home'), 'html'); ?>"
 					title="Home">Home</a></li>
-				<li class="page_item page-item-2"><a
-					href="http://example.com">About</a></li>
-				<li class="page_item page-item-46"><a
-					href="http://example.com">Parent Page</a>
+				<li><a
+					href="<?php echo core::constructURL('user', 'login', array(''), 'html'); ?>">Log in</a></li>
+				<li><a
+					href="<?php echo core::constructURL('page', 'view', array('about'), 'html'); ?>">About</a>
 					<ul class="children">
 						<li class="page_item page-item-49"><a
-							href="http://example.com">Sub-page</a></li>
-					</ul></li>
+							href="<?php echo core::constructURL('page', 'view', array('signup'), 'html'); ?>">Sign up</a></li>
+							<li class="page_item page-item-49"><a
+							href="<?php echo core::constructURL('page', 'view', array('privacy'), 'html'); ?>">Privacy policy</a></li>
+							<li class="page_item page-item-49"><a
+							href="<?php echo core::constructURL('page', 'view', array('contact'), 'html'); ?>">Contact</a></li>
+					</ul>
+				</li>
 			</ul>
 		</div>
 		<!-- end of #header -->
@@ -69,7 +74,7 @@
 			<!-- end of col-940 -->
 
 			<div class="grid col-300 copyright">
-				MathsMix is operated by <a href="http://bitrevision.com/">bitrevision</a></a>
+				MathsMix is operated by <a href="http://bitrevision.com/">bitrevision</a>
 			</div>
 			<!-- end of .copyright -->
 

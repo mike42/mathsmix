@@ -33,12 +33,9 @@
 					<div class="widget-wrapper">
 
 						<div class="widget-title-home">
-							<h3>Home Widget 1</h3>
+							<h3>Students</h3>
 						</div>
-						<div class="textwidget">This is your first home widget box.
-							To edit please go to Appearance &gt; Widgets and choose 6th
-							widget from the top in area six called Home Widget 1. Title is
-							also manageable from widgets as well.</div>
+						<div class="textwidget">A small blurb about how MathsMix is good for a student.</div>
 
 					</div>
 					<!-- end of .widget-wrapper -->
@@ -51,12 +48,9 @@
 					<div class="widget-wrapper">
 
 						<div class="widget-title-home">
-							<h3>Home Widget 2</h3>
+							<h3>Teachers</h3>
 						</div>
-						<div class="textwidget">This is your second home widget box.
-							To edit please go to Appearance &gt; Widgets and choose 7th
-							widget from the top in area seven called Home Widget 2. Title is
-							also manageable from widgets as well.</div>
+						<div class="textwidget">A small blurb about how MathsMix is good for a teacher.</div>
 
 					</div>
 					<!-- end of .widget-wrapper -->
@@ -69,12 +63,9 @@
 					<div class="widget-wrapper">
 
 						<div class="widget-title-home">
-							<h3>Home Widget 3</h3>
+							<h3>Schools</h3>
 						</div>
-						<div class="textwidget">This is your third home widget box.
-							To edit please go to Appearance &gt; Widgets and choose 8th
-							widget from the top in area eight called Home Widget 3. Title is
-							also manageable from widgets as well.</div>
+						<div class="textwidget">A small blurb about how MathsMix is good for a whole school.</div>
 
 					</div>
 					<!-- end of .widget-wrapper -->
