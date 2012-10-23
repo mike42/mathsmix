@@ -19,6 +19,7 @@ $constraint = "ADD CONSTRAINT";
 $action = "";
 $inTable = "";
 
+/* Parse SQL file */
 foreach($lines as $line) {
 	$line = trim($line);
 	if($line == "") {
@@ -32,12 +33,27 @@ foreach($lines as $line) {
 			$fields = array();
 			if(substr($line,0,1) == "`") {
 				/* Just pull list of fields */
-				$table[$inTable]['field'][$field] = true;
+				$dtype = trim($part[2]);
+				if(!(strpos($dtype, ' ') === false)) {
+					$dtype = substr($dtype, 0,strpos($dtype, ' '));
+				}
+				/* Full MySQL data type */
+				$table[$inTable]['field'][$field]['type'] = $dtype;
+				/* Length, or 0 if no length: */
+				$table[$inTable]['field'][$field]['insert'] = strpos($line, "AUTO_INCREMENT") === false  && (strpos($field, "_created") === false);
+				/* Also set to false for PK fields later*/
+				$table[$inTable]['field'][$field]['update'] = (strpos($line, "ON UPDATE") === false) && (strpos($field, "_created") === false);
+				$table[$inTable]['field'][$field]['null'] = (strpos($line, "NOT NULL") === false);
+				
 			} elseif(substr($line,0,strlen($primary)) == $primary) {
 				for($i = 1; $i < count($part); $i += 2) {
 					$fields[] = $part[$i];
 				}
 				$table[$inTable]['index']['primary'] = $fields;
+				foreach($fields as $field) {
+					/* Don't try to update a primary key */
+					$table[$inTable]['field'][$field]['update'] = false;
+				}
 			} elseif(substr($line,0,strlen($unique)) == $unique || substr($line,0,strlen($key)) == $key) {
 				$key = "unique";
 				for($i = 3; $i < count($part); $i += 2) {
@@ -76,44 +92,65 @@ foreach($lines as $line) {
 	}
 }
 
+/* Output models */
 @mkdir(dirname(__FILE__)."/model/");
 foreach($table as $name => $current) {
+	unset($isrelated);
 	$str = "<?php\n";
-	$str .= "class $name {\n";
+	$str .= "class $name"."_model {\n";
 	$max = 0;
+	
 	/* Fields */
+	$str .= "\t/* Fields */\n";
 	foreach($current['field'] as $field => $exists) {
 		if(strlen($field) > $max) {
 			$max = strlen($field);
 		}
 		$str .= "\tpublic $".$field.";\n";
 	}
+	
+	/* Tables which we hold keys for */
 	if(isset($current['references'])) {
 		$str .= "\n\t/* Referenced tables */\n";
 		foreach($current['references'] as $other_table => $fields) {
 			$str .=  "\tpublic \$$other_table;\n";
+			$isrelated[$other_table] = true;
 		}
 	}
 	
+	/* Tables which point here */
 	if(isset($current['referenced'])) {
 		$str .= "\n\t/* Tables which reference this */\n";
 		foreach($current['referenced'] as $other_table => $fields) {
-			$str .=  "\tpublic \$list_$other_table;\n";
+			$str .=  "\tpublic \$list_".str_pad($other_table, 20, " ")." = array();\n";
+			$isrelated[$other_table] = true;
 		}
 	}
 	
-	/* Constructor */
-	$str .= "\n\tpublic function $name(\$row) {\n";
-	foreach($current['field'] as $field => $exists) {
-		$str .= "\t\t\$this -> " . str_pad($field, $max, " ") . " = \$row['$field'];\n";
+	/* Init for dependencies if needed*/
+	if(isset($isrelated)) {
+		$str .= "\n".blockComment(1, array("Load all related models."));
+		$str .= "\tpublic static function init() {\n";
+		foreach($isrelated as $related_table => $true) {
+			$str .= "\t\tcore::loadClass(\"" . $related_table . "_model\");\n";
+		}
+		$str .= "\t}\n";
 	}
-	
+		
+	/* Constructor */
+	$comment = array("Create new $name based on a row from the database.");
+	$comment[] = "@param array \$row The database row to use.";
+	$str .= "\n".blockComment(1, $comment);
+	$str .= "\tpublic function $name"."_model(array \$row) {\n";
+	foreach($current['field'] as $field => $exists) {
+		$str .= "\t\t\$this -> " . str_pad($field, $max, " ") . " = isset(\$row['$field'])".str_pad('', ($max - strlen($field)), ' ')." ? \$row['$field']".str_pad('', ($max - strlen($field)), ' ').": '';\n";
+	}
+
 	if(isset($current['references'])) {
 		$str .= "\n\t\t/* Fields from related tables */\n";
 		foreach($current['references'] as $references => $fields) {
-			$str .= "\t\t\$this -> " . $references . " = new $references(\$row);\n";
+			$str .= "\t\t\$this -> " . $references . " = new $references"."_model(\$row);\n";
 		}
-
 	}
 	$str .= "\t}\n";
 		
@@ -129,15 +166,6 @@ foreach($table as $name => $current) {
 			$str .= get($table, "get_by_$fname", $name, $current, $current['index']['index'][$fname]);
 		}
 	}
-	
-	/* TODO: Update, delete, insert */
-	$str .= "\n\tpublic function insert() {\n";
-	$str .= "\n";
-	$str .= "\t}\n";
-
-	$str .= "\n\tpublic function update() {\n";
-	$str .= "\n";
-	$str .= "\t}\n";
 
 	/* List by non-unique keys */
 	if(isset($current['index']['index'])) {
@@ -151,17 +179,57 @@ foreach($table as $name => $current) {
 	/* Find related records */
 	if(isset($current['referenced'])) {
 		foreach($current['referenced'] as $referenced => $fields) {
-			$str .= "\n\tpublic function populate_list_$references() {\n";
+			$str .= "\n\tpublic function populate_list_$referenced() {\n";
 			$str .= "\t\t\$this -> list_$referenced = $referenced::list_by_".$fields['remote']."(\$this -> ".$fields['local'].");\n";
 			$str .= "\t}\n";
 		}
 	}
 	
+	/* Insert and update functions */
+	$insertFields_name = $updateFields_name = array();
+	foreach($current['field'] as $field_name => $field) {
+		if($field['insert']) {
+			$insertFields_name[] = $field_name;
+		}
+		if($field['update']) {
+			$updateFields_name[] = $field_name;
+		}
+	}
+	
+	/* Construct INSERT query */
+	$str .= "\n\tpublic function insert() {\n";
+	$str .= "\t\t\$sql = \"INSERT INTO $name(" . implode(", ", $insertFields_name) . ") VALUES (";
+	for($i = 0; $i < count($insertFields_name); $i++) {
+		$str .= (($i == 0) ? "" : ", ") . "'%s'";
+	}
+	$str .= ");\";\n";
+	$str .= "\t\treturn database::insert(\$sql, array(".implode(", ", thisify($insertFields_name))."));\n";
+	$str .= "\t}\n";
+
+	/* Construct UPDATE query */
+	$str .= "\n\tpublic function update() {\n";
+	$updateFields_line = array();
+	foreach($updateFields_name as $key => $field) {
+		$updateFields_line[$key] = "$field ='%s'";
+	}
+	$str .= "\t\t\$sql = \"UPDATE $name SET ".implode(", ", $updateFields_name);
+	$updateKey = array();
+	foreach($current['index']['primary'] as $field) {
+		$updateKey[] = $field . " ='%s'";
+		$updateFields_name[] = $field;
+	}
+	$str .= " WHERE " . implode("AND", $updateKey) . ";\";\n";
+	$str .= "\t\treturn database::update(\$sql, array(".implode(", ", thisify($updateFields_name))."));\n";
+	
+	$str .= "\t}\n";
+
 	$str .= "}\n";
+	
 	$str .= "?>";
 	
 	file_put_contents(dirname(__FILE__)."/model/".$name."_model.php", $str);
 }
+//print_r($table);
 
 function get($table, $fname, $name, $current, $index) {
 	$fieldlist = $fieldlist_sql = array();
@@ -171,9 +239,9 @@ function get($table, $fname, $name, $current, $index) {
 	}
 	$str = "\n\tpublic static function $fname(".implode(", ", $fieldlist).") {\n";
 	$str .= "\t\t\$sql = \"".build_w_references($table, $name, $current)." WHERE " . implode(" AND ", $fieldlist_sql)."\";\n";	
-	$str .= "\t\t\$res = Database::retrieve(\$sql, array(".implode(", ", $fieldlist)."));\n";
-	$str .= "\t\tif(\$row = Database::get_row(\$res)) {\n";
-	$str .= "\t\t\treturn new $name(\$row);\n";
+	$str .= "\t\t\$res = database::retrieve(\$sql, array(".implode(", ", $fieldlist)."));\n";
+	$str .= "\t\tif(\$row = database::get_row(\$res)) {\n";
+	$str .= "\t\t\treturn new $name"."_model(\$row);\n";
 	$str .= "\t\t}\n";
 	$str .= "\t\treturn false;\n";
 	$str .= "\t}\n";
@@ -188,10 +256,10 @@ function listBy($table, $fname, $name, $current, $index) {
 	}
 	$str = "\n\tpublic static function $fname(".implode(", ", $fieldlist).") {\n";
 	$str .= "\t\t\$sql = \"".build_w_references($table, $name, $current)." WHERE " . implode(" AND ", $fieldlist_sql).";\";\n";
-	$str .= "\t\t\$res = Database::retrieve(\$sql, array(".implode(", ", $fieldlist)."));\n";
+	$str .= "\t\t\$res = database::retrieve(\$sql, array(".implode(", ", $fieldlist)."));\n";
 	$str .= "\t\t\$ret = array();\n";
-	$str .= "\t\twhile(\$row = Database::get_row(\$res)) {\n";
-	$str .= "\t\t\t\$ret[] = new $name(\$row);\n";
+	$str .= "\t\twhile(\$row = database::get_row(\$res)) {\n";
+	$str .= "\t\t\t\$ret[] = new $name"."_model(\$row);\n";
 	$str .= "\t\t}\n";
 	$str .= "\t\treturn \$ret;\n";
 	$str .= "\t}\n";
@@ -230,5 +298,30 @@ function build_w_references($table, $name, $current) {
 	}
 
 	return $q;
+}
+
+/**
+ * Insert a block comment
+ * @param int   $indent  Number of tabs to prefix lines with
+ * @param array $lines   Lines to add to comment
+ */
+function blockComment($indent, $lines) {
+	$tab = str_repeat("\t", $indent);
+	$str = "";
+	$str .= $tab ."/**\n";
+	foreach($lines as $line) {
+		$str .= $tab . " * " . $line . "\n";
+	}
+	return $str . $tab . "*/\n";
+}
+
+/**
+ * Change an array of "foo, bar" to "$this -> foo, $this -> bar"
+ */
+function thisify(array $in) {
+	foreach($in as $key => $val) {
+		$in[$key] = "\$this -> $val";
+	}
+	return $in;
 }
 ?>
