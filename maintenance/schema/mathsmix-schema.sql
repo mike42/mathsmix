@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 23, 2012 at 04:01 PM
+-- Generation Time: Oct 24, 2012 at 08:17 AM
 -- Server version: 5.5.24
 -- PHP Version: 5.3.10-1ubuntu3.4
 
@@ -136,7 +136,8 @@ CREATE TABLE IF NOT EXISTS `classes` (
   `school_id` int(11) NOT NULL,
   PRIMARY KEY (`class_id`),
   KEY `yl_id` (`yl_id`),
-  KEY `school_id` (`school_id`)
+  KEY `school_id` (`school_id`),
+  KEY `yl_and_school` (`yl_id`,`school_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Classes' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -386,7 +387,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `user_email` (`user_email`),
   KEY `domain_id` (`domain_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='User information' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='User information' AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
 
