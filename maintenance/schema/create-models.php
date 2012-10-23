@@ -93,7 +93,8 @@ foreach($lines as $line) {
 }
 
 /* Output models */
-@mkdir(dirname(__FILE__)."/model/");
+$outp_folder = dirname(__FILE__)."/../../api/model/";
+@mkdir($outp_folder);
 foreach($table as $name => $current) {
 	unset($isrelated);
 	$str = "<?php\n";
@@ -131,6 +132,7 @@ foreach($table as $name => $current) {
 	if(isset($isrelated)) {
 		$str .= "\n".blockComment(1, array("Load all related models."));
 		$str .= "\tpublic static function init() {\n";
+		$str .= "\t\tcore::loadClass(\"database\");\n";
 		foreach($isrelated as $related_table => $true) {
 			$str .= "\t\tcore::loadClass(\"" . $related_table . "_model\");\n";
 		}
@@ -141,7 +143,7 @@ foreach($table as $name => $current) {
 	$comment = array("Create new $name based on a row from the database.");
 	$comment[] = "@param array \$row The database row to use.";
 	$str .= "\n".blockComment(1, $comment);
-	$str .= "\tpublic function $name"."_model(array \$row) {\n";
+	$str .= "\tpublic function $name"."_model(array \$row = array()) {\n";
 	foreach($current['field'] as $field => $exists) {
 		$str .= "\t\t\$this -> " . str_pad($field, $max, " ") . " = isset(\$row['$field'])".str_pad('', ($max - strlen($field)), ' ')." ? \$row['$field']".str_pad('', ($max - strlen($field)), ' ').": '';\n";
 	}
@@ -227,7 +229,7 @@ foreach($table as $name => $current) {
 	
 	$str .= "?>";
 	
-	file_put_contents(dirname(__FILE__)."/model/".$name."_model.php", $str);
+	file_put_contents($outp_folder.$name."_model.php", $str);
 }
 //print_r($table);
 

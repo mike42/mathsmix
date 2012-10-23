@@ -19,6 +19,7 @@ class class_selection_model {
 	 * Load all related models.
 	*/
 	public static function init() {
+		core::loadClass("database");
 		core::loadClass("classes_model");
 		core::loadClass("task_template_model");
 		core::loadClass("year_week_model");
@@ -28,7 +29,7 @@ class class_selection_model {
 	 * Create new class_selection based on a row from the database.
 	 * @param array $row The database row to use.
 	*/
-	public function class_selection_model(array $row) {
+	public function class_selection_model(array $row = array()) {
 		$this -> class_id        = isset($row['class_id'])        ? $row['class_id']       : '';
 		$this -> tt_id           = isset($row['tt_id'])           ? $row['tt_id']          : '';
 		$this -> yw_id           = isset($row['yw_id'])           ? $row['yw_id']          : '';

@@ -25,6 +25,7 @@ class task_template_model {
 	 * Load all related models.
 	*/
 	public static function init() {
+		core::loadClass("database");
 		core::loadClass("activity_template_model");
 		core::loadClass("year_level_model");
 		core::loadClass("user_model");
@@ -36,7 +37,7 @@ class task_template_model {
 	 * Create new task_template based on a row from the database.
 	 * @param array $row The database row to use.
 	*/
-	public function task_template_model(array $row) {
+	public function task_template_model(array $row = array()) {
 		$this -> tt_id       = isset($row['tt_id'])       ? $row['tt_id']      : '';
 		$this -> at_id       = isset($row['at_id'])       ? $row['at_id']      : '';
 		$this -> yl_id       = isset($row['yl_id'])       ? $row['yl_id']      : '';

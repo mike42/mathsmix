@@ -18,6 +18,7 @@ class activity_question_model {
 	 * Load all related models.
 	*/
 	public static function init() {
+		core::loadClass("database");
 		core::loadClass("activity_template_qm_model");
 		core::loadClass("activity_model");
 		core::loadClass("activity_question_response_model");
@@ -27,7 +28,7 @@ class activity_question_model {
 	 * Create new activity_question based on a row from the database.
 	 * @param array $row The database row to use.
 	*/
-	public function activity_question_model(array $row) {
+	public function activity_question_model(array $row = array()) {
 		$this -> aq_id       = isset($row['aq_id'])       ? $row['aq_id']      : '';
 		$this -> atqm_id     = isset($row['atqm_id'])     ? $row['atqm_id']    : '';
 		$this -> activity_id = isset($row['activity_id']) ? $row['activity_id']: '';

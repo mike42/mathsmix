@@ -41,38 +41,41 @@ class database {
 	
 	public static function close() {
 		/* Close connection */
-		return mysql_close(Database::$conn);
+		return mysql_close(database::$conn);
 	}
 	
-	function retrieve($query, $return_type = 0, $arg) {
+	function retrieve($query, array $arg) {
+		return self::doQuery($query, $arg);
+	}
+	
+	function insert($query, array $arg) {
+		$res = self::doQuery($query, $arg);
+		return self::insert_id();
+	}
+	
+	private function doQuery($query, array $arg) {
 		/* Query wrapper to be sure everything is escaped. All SQL must go through here! */
 		foreach($arg as $key => $val) {
 			$arg[$key] = database::retrieve_arg($val);
 		}
-		$query = sprintf($query, $arg);
-		$res = Database::query($query);
+		
+		array_unshift($arg, $query);
+		$query = call_user_func_array('sprintf', $arg);
+		$res = database::query($query);
 		
 		/* Die on database errors */
 		if(!$res) {
 			$errmsg = 'Query failed:' . $query." ". mysql_error();;
 			Core::fizzle($errmsg);
 		}
-	
-		/* Return methods: Return a result set, or return a row if only one is expected */
-		switch($return_type) {
-			case 0;
-				return $res;
-			case 1;
-				return Database::get_row($res);
-			case 2;
-				return Database::insert_id($res);
-		}
+		
+		return $res;
 	}
 	
 	function retrieve_arg($arg) {
 		/* Escape an argument for an SQL query, or return false if there was none */
 		if($arg) {
-			return Database::escape($arg);
+			return database::escape($arg);
 		}
 		return false;
 	}

@@ -19,6 +19,7 @@ class question_usage_model {
 	 * Load all related models.
 	*/
 	public static function init() {
+		core::loadClass("database");
 		core::loadClass("question_viewer_model");
 		core::loadClass("question_maker_model");
 		core::loadClass("activity_template_qm_model");
@@ -28,7 +29,7 @@ class question_usage_model {
 	 * Create new question_usage based on a row from the database.
 	 * @param array $row The database row to use.
 	*/
-	public function question_usage_model(array $row) {
+	public function question_usage_model(array $row = array()) {
 		$this -> qu_id      = isset($row['qu_id'])      ? $row['qu_id']     : '';
 		$this -> qu_comment = isset($row['qu_comment']) ? $row['qu_comment']: '';
 		$this -> qv_id      = isset($row['qv_id'])      ? $row['qv_id']     : '';

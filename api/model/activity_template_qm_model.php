@@ -19,6 +19,7 @@ class activity_template_qm_model {
 	 * Load all related models.
 	*/
 	public static function init() {
+		core::loadClass("database");
 		core::loadClass("activity_template_model");
 		core::loadClass("question_usage_model");
 		core::loadClass("activity_question_model");
@@ -28,7 +29,7 @@ class activity_template_qm_model {
 	 * Create new activity_template_qm based on a row from the database.
 	 * @param array $row The database row to use.
 	*/
-	public function activity_template_qm_model(array $row) {
+	public function activity_template_qm_model(array $row = array()) {
 		$this -> atqm_id      = isset($row['atqm_id'])      ? $row['atqm_id']     : '';
 		$this -> at_id        = isset($row['at_id'])        ? $row['at_id']       : '';
 		$this -> atqm_no      = isset($row['atqm_no'])      ? $row['atqm_no']     : '';

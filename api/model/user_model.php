@@ -18,7 +18,6 @@ class user_model {
 	public $list_activity             = array();
 	public $list_activity_template    = array();
 	public $list_attends              = array();
-	public $list_school               = array();
 	public $list_task                 = array();
 	public $list_task_template        = array();
 	public $list_teaches              = array();
@@ -27,11 +26,11 @@ class user_model {
 	 * Load all related models.
 	*/
 	public static function init() {
+		core::loadClass("database");
 		core::loadClass("domain_model");
 		core::loadClass("activity_model");
 		core::loadClass("activity_template_model");
 		core::loadClass("attends_model");
-		core::loadClass("school_model");
 		core::loadClass("task_model");
 		core::loadClass("task_template_model");
 		core::loadClass("teaches_model");
@@ -41,7 +40,7 @@ class user_model {
 	 * Create new user based on a row from the database.
 	 * @param array $row The database row to use.
 	*/
-	public function user_model(array $row) {
+	public function user_model(array $row = array()) {
 		$this -> user_id        = isset($row['user_id'])        ? $row['user_id']       : '';
 		$this -> user_firstname = isset($row['user_firstname']) ? $row['user_firstname']: '';
 		$this -> user_surname   = isset($row['user_surname'])   ? $row['user_surname']  : '';
@@ -94,10 +93,6 @@ class user_model {
 
 	public function populate_list_attends() {
 		$this -> list_attends = attends::list_by_user_id($this -> user_id);
-	}
-
-	public function populate_list_school() {
-		$this -> list_school = school::list_by_user_id($this -> user_id);
 	}
 
 	public function populate_list_task() {

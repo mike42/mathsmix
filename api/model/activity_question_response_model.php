@@ -15,6 +15,7 @@ class activity_question_response_model {
 	 * Load all related models.
 	*/
 	public static function init() {
+		core::loadClass("database");
 		core::loadClass("activity_question_model");
 		core::loadClass("task_model");
 	}
@@ -23,7 +24,7 @@ class activity_question_response_model {
 	 * Create new activity_question_response based on a row from the database.
 	 * @param array $row The database row to use.
 	*/
-	public function activity_question_response_model(array $row) {
+	public function activity_question_response_model(array $row = array()) {
 		$this -> aq_id        = isset($row['aq_id'])        ? $row['aq_id']       : '';
 		$this -> task_id      = isset($row['task_id'])      ? $row['task_id']     : '';
 		$this -> aqr_marks    = isset($row['aqr_marks'])    ? $row['aqr_marks']   : '';

@@ -19,6 +19,7 @@ class activity_model {
 	 * Load all related models.
 	*/
 	public static function init() {
+		core::loadClass("database");
 		core::loadClass("activity_template_model");
 		core::loadClass("user_model");
 		core::loadClass("activity_question_model");
@@ -29,7 +30,7 @@ class activity_model {
 	 * Create new activity based on a row from the database.
 	 * @param array $row The database row to use.
 	*/
-	public function activity_model(array $row) {
+	public function activity_model(array $row = array()) {
 		$this -> activity_id      = isset($row['activity_id'])      ? $row['activity_id']     : '';
 		$this -> at_id            = isset($row['at_id'])            ? $row['at_id']           : '';
 		$this -> user_id          = isset($row['user_id'])          ? $row['user_id']         : '';

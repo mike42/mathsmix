@@ -12,6 +12,7 @@ class teaches_model {
 	 * Load all related models.
 	*/
 	public static function init() {
+		core::loadClass("database");
 		core::loadClass("user_model");
 		core::loadClass("classes_model");
 	}
@@ -20,7 +21,7 @@ class teaches_model {
 	 * Create new teaches based on a row from the database.
 	 * @param array $row The database row to use.
 	*/
-	public function teaches_model(array $row) {
+	public function teaches_model(array $row = array()) {
 		$this -> user_id  = isset($row['user_id'])  ? $row['user_id'] : '';
 		$this -> class_id = isset($row['class_id']) ? $row['class_id']: '';
 

@@ -18,6 +18,7 @@ class district_model {
 	 * Load all related models.
 	*/
 	public static function init() {
+		core::loadClass("database");
 		core::loadClass("country_model");
 		core::loadClass("school_model");
 		core::loadClass("year_level_model");
@@ -27,7 +28,7 @@ class district_model {
 	 * Create new district based on a row from the database.
 	 * @param array $row The database row to use.
 	*/
-	public function district_model(array $row) {
+	public function district_model(array $row = array()) {
 		$this -> district_id         = isset($row['district_id'])         ? $row['district_id']        : '';
 		$this -> district_name       = isset($row['district_name'])       ? $row['district_name']      : '';
 		$this -> country_iso         = isset($row['country_iso'])         ? $row['country_iso']        : '';

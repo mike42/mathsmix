@@ -23,6 +23,7 @@ class task_model {
 	 * Load all related models.
 	*/
 	public static function init() {
+		core::loadClass("database");
 		core::loadClass("user_model");
 		core::loadClass("activity_model");
 		core::loadClass("task_template_model");
@@ -34,7 +35,7 @@ class task_model {
 	 * Create new task based on a row from the database.
 	 * @param array $row The database row to use.
 	*/
-	public function task_model(array $row) {
+	public function task_model(array $row = array()) {
 		$this -> task_id       = isset($row['task_id'])       ? $row['task_id']      : '';
 		$this -> user_id       = isset($row['user_id'])       ? $row['user_id']      : '';
 		$this -> task_due      = isset($row['task_due'])      ? $row['task_due']     : '';

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 23, 2012 at 03:06 PM
+-- Generation Time: Oct 23, 2012 at 04:01 PM
 -- Server version: 5.5.24
 -- PHP Version: 5.3.10-1ubuntu3.4
 
@@ -276,12 +276,10 @@ CREATE TABLE IF NOT EXISTS `school` (
   `school_name` text NOT NULL,
   `school_location` text NOT NULL,
   `school_tz` varchar(256) NOT NULL COMMENT 'Timezone identifier for PHP',
-  `user_id` int(11) DEFAULT NULL,
   `school_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `district_id` int(11) NOT NULL,
   PRIMARY KEY (`school_id`),
-  KEY `district_id` (`district_id`),
-  KEY `user_id` (`user_id`)
+  KEY `district_id` (`district_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Schools' AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
@@ -515,7 +513,6 @@ ALTER TABLE `question_usage`
 -- Constraints for table `school`
 --
 ALTER TABLE `school`
-  ADD CONSTRAINT `school_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE SET NULL,
   ADD CONSTRAINT `school_ibfk_4` FOREIGN KEY (`district_id`) REFERENCES `district` (`district_id`);
 
 --

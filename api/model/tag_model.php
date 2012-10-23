@@ -11,6 +11,7 @@ class tag_model {
 	 * Load all related models.
 	*/
 	public static function init() {
+		core::loadClass("database");
 		core::loadClass("tag_qm_model");
 	}
 
@@ -18,7 +19,7 @@ class tag_model {
 	 * Create new tag based on a row from the database.
 	 * @param array $row The database row to use.
 	*/
-	public function tag_model(array $row) {
+	public function tag_model(array $row = array()) {
 		$this -> tag_id   = isset($row['tag_id'])   ? $row['tag_id']  : '';
 		$this -> tag_name = isset($row['tag_name']) ? $row['tag_name']: '';
 	}

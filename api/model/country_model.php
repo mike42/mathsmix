@@ -11,6 +11,7 @@ class country_model {
 	 * Load all related models.
 	*/
 	public static function init() {
+		core::loadClass("database");
 		core::loadClass("district_model");
 	}
 
@@ -18,7 +19,7 @@ class country_model {
 	 * Create new country based on a row from the database.
 	 * @param array $row The database row to use.
 	*/
-	public function country_model(array $row) {
+	public function country_model(array $row = array()) {
 		$this -> country_iso  = isset($row['country_iso'])  ? $row['country_iso'] : '';
 		$this -> country_name = isset($row['country_name']) ? $row['country_name']: '';
 	}

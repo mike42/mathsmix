@@ -15,6 +15,7 @@ class year_week_model {
 	 * Load all related models.
 	*/
 	public static function init() {
+		core::loadClass("database");
 		core::loadClass("class_selection_model");
 		core::loadClass("task_model");
 	}
@@ -23,7 +24,7 @@ class year_week_model {
 	 * Create new year_week based on a row from the database.
 	 * @param array $row The database row to use.
 	*/
-	public function year_week_model(array $row) {
+	public function year_week_model(array $row = array()) {
 		$this -> yw_id    = isset($row['yw_id'])    ? $row['yw_id']   : '';
 		$this -> yw_year  = isset($row['yw_year'])  ? $row['yw_year'] : '';
 		$this -> yw_week  = isset($row['yw_week'])  ? $row['yw_week'] : '';

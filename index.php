@@ -1,5 +1,7 @@
 <?php 
 require_once("api/core.php");
+core::loadClass('session');
+
 $config = core::getConfig('core');
 
 /* Get page (or go to default if none is specified) */

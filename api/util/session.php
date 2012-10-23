@@ -10,9 +10,15 @@ class session {
 	 */
 	public function init() {
 		self::$user = null;
-
 		core::loadClass('user_model');
 		session_start();
+		
+		if(isset($_SESSION['user_id'])) {
+			self::$user = user_model::get($_SESSION['user_id']);
+			if(!self::$user) {
+				self::logoutUser();
+			}
+		}
 	}
 
 	/**
@@ -31,9 +37,7 @@ class session {
 	 */
 	public static function logoutUser() {
 		unset($_SESSION['user_id']);
-		unset($_SESSION['user_pass']);
 		self::$user = null;
-		self::$verified = true;
 		return true;
 	}
 

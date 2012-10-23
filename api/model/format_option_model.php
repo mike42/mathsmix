@@ -12,6 +12,7 @@ class format_option_model {
 	 * Load all related models.
 	*/
 	public static function init() {
+		core::loadClass("database");
 		core::loadClass("question_viewer_model");
 		core::loadClass("question_maker_model");
 	}
@@ -20,7 +21,7 @@ class format_option_model {
 	 * Create new format_option based on a row from the database.
 	 * @param array $row The database row to use.
 	*/
-	public function format_option_model(array $row) {
+	public function format_option_model(array $row = array()) {
 		$this -> qv_id = isset($row['qv_id']) ? $row['qv_id']: '';
 		$this -> qm_id = isset($row['qm_id']) ? $row['qm_id']: '';
 

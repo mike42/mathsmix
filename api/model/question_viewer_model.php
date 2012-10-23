@@ -14,6 +14,7 @@ class question_viewer_model {
 	 * Load all related models.
 	*/
 	public static function init() {
+		core::loadClass("database");
 		core::loadClass("format_option_model");
 		core::loadClass("question_usage_model");
 	}
@@ -22,7 +23,7 @@ class question_viewer_model {
 	 * Create new question_viewer based on a row from the database.
 	 * @param array $row The database row to use.
 	*/
-	public function question_viewer_model(array $row) {
+	public function question_viewer_model(array $row = array()) {
 		$this -> qv_id      = isset($row['qv_id'])      ? $row['qv_id']     : '';
 		$this -> qv_name    = isset($row['qv_name'])    ? $row['qv_name']   : '';
 		$this -> qv_class   = isset($row['qv_class'])   ? $row['qv_class']  : '';

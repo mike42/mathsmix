@@ -15,6 +15,7 @@ class question_maker_model {
 	 * Load all related models.
 	*/
 	public static function init() {
+		core::loadClass("database");
 		core::loadClass("format_option_model");
 		core::loadClass("question_usage_model");
 		core::loadClass("tag_qm_model");
@@ -24,7 +25,7 @@ class question_maker_model {
 	 * Create new question_maker based on a row from the database.
 	 * @param array $row The database row to use.
 	*/
-	public function question_maker_model(array $row) {
+	public function question_maker_model(array $row = array()) {
 		$this -> qm_id      = isset($row['qm_id'])      ? $row['qm_id']     : '';
 		$this -> qm_name    = isset($row['qm_name'])    ? $row['qm_name']   : '';
 		$this -> qm_class   = isset($row['qm_class'])   ? $row['qm_class']  : '';

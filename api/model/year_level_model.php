@@ -18,6 +18,7 @@ class year_level_model {
 	 * Load all related models.
 	*/
 	public static function init() {
+		core::loadClass("database");
 		core::loadClass("district_model");
 		core::loadClass("classes_model");
 		core::loadClass("task_template_model");
@@ -27,7 +28,7 @@ class year_level_model {
 	 * Create new year_level based on a row from the database.
 	 * @param array $row The database row to use.
 	*/
-	public function year_level_model(array $row) {
+	public function year_level_model(array $row = array()) {
 		$this -> yl_id       = isset($row['yl_id'])       ? $row['yl_id']      : '';
 		$this -> yl_name     = isset($row['yl_name'])     ? $row['yl_name']    : '';
 		$this -> yl_level    = isset($row['yl_level'])    ? $row['yl_level']   : '';
