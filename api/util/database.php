@@ -61,6 +61,7 @@ class database {
 		
 		array_unshift($arg, $query);
 		$query = call_user_func_array('sprintf', $arg);
+		
 		$res = database::query($query);
 		
 		/* Die on database errors */
