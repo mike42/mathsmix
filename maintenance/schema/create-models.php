@@ -182,7 +182,7 @@ foreach($table as $name => $current) {
 	if(isset($current['referenced'])) {
 		foreach($current['referenced'] as $referenced => $fields) {
 			$str .= "\n\tpublic function populate_list_$referenced() {\n";
-			$str .= "\t\t\$this -> list_$referenced = $referenced::list_by_".$fields['remote']."(\$this -> ".$fields['local'].");\n";
+			$str .= "\t\t\$this -> list_$referenced = $referenced"."_model::list_by_".$fields['remote']."(\$this -> ".$fields['local'].");\n";
 			$str .= "\t}\n";
 		}
 	}
@@ -237,7 +237,7 @@ function get($table, $fname, $name, $current, $index) {
 	$fieldlist = $fieldlist_sql = array();
 	foreach($index as $field) {
 		$fieldlist[] = "\$".$field;
-		$fieldlist_sql[] = $field . "='%s'";
+		$fieldlist_sql[] = $name.".".$field . "='%s'";
 	}
 	$str = "\n\tpublic static function $fname(".implode(", ", $fieldlist).") {\n";
 	$str .= "\t\t\$sql = \"".build_w_references($table, $name, $current)." WHERE " . implode(" AND ", $fieldlist_sql)."\";\n";	
@@ -254,7 +254,7 @@ function listBy($table, $fname, $name, $current, $index) {
 	$fieldlist = $fieldlist_sql = array();
 	foreach($index as $field) {
 		$fieldlist[] = "\$".$field;
-		$fieldlist_sql[] = $field . "='%s'";
+		$fieldlist_sql[] = $name.".".$field . "='%s'";
 	}
 	$str = "\n\tpublic static function $fname(".implode(", ", $fieldlist).") {\n";
 	$str .= "\t\t\$sql = \"".build_w_references($table, $name, $current)." WHERE " . implode(" AND ", $fieldlist_sql).";\";\n";

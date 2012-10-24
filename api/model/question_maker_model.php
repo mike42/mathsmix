@@ -33,7 +33,7 @@ class question_maker_model {
 	}
 
 	public static function get($qm_id) {
-		$sql = "SELECT * FROM question_maker WHERE qm_id='%s'";
+		$sql = "SELECT * FROM question_maker WHERE question_maker.qm_id='%s'";
 		$res = database::retrieve($sql, array($qm_id));
 		if($row = database::get_row($res)) {
 			return new question_maker_model($row);
@@ -42,15 +42,15 @@ class question_maker_model {
 	}
 
 	public function populate_list_format_option() {
-		$this -> list_format_option = format_option::list_by_qm_id($this -> qm_id);
+		$this -> list_format_option = format_option_model::list_by_qm_id($this -> qm_id);
 	}
 
 	public function populate_list_question_usage() {
-		$this -> list_question_usage = question_usage::list_by_qm_id($this -> qm_id);
+		$this -> list_question_usage = question_usage_model::list_by_qm_id($this -> qm_id);
 	}
 
 	public function populate_list_tag_qm() {
-		$this -> list_tag_qm = tag_qm::list_by_qm_id($this -> qm_id);
+		$this -> list_tag_qm = tag_qm_model::list_by_qm_id($this -> qm_id);
 	}
 
 	public function insert() {

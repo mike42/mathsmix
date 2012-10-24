@@ -38,7 +38,7 @@ class domain_model {
 	}
 
 	public static function get($domain_id) {
-		$sql = "SELECT * FROM domain LEFT JOIN school ON domain.school_id = school.school_id LEFT JOIN district ON school.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE domain_id='%s'";
+		$sql = "SELECT * FROM domain LEFT JOIN school ON domain.school_id = school.school_id LEFT JOIN district ON school.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE domain.domain_id='%s'";
 		$res = database::retrieve($sql, array($domain_id));
 		if($row = database::get_row($res)) {
 			return new domain_model($row);
@@ -47,7 +47,7 @@ class domain_model {
 	}
 
 	public static function get_by_domain_host($domain_host) {
-		$sql = "SELECT * FROM domain LEFT JOIN school ON domain.school_id = school.school_id LEFT JOIN district ON school.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE domain_host='%s'";
+		$sql = "SELECT * FROM domain LEFT JOIN school ON domain.school_id = school.school_id LEFT JOIN district ON school.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE domain.domain_host='%s'";
 		$res = database::retrieve($sql, array($domain_host));
 		if($row = database::get_row($res)) {
 			return new domain_model($row);
@@ -56,7 +56,7 @@ class domain_model {
 	}
 
 	public static function list_by_school_id($school_id) {
-		$sql = "SELECT * FROM domain LEFT JOIN school ON domain.school_id = school.school_id LEFT JOIN district ON school.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE school_id='%s';";
+		$sql = "SELECT * FROM domain LEFT JOIN school ON domain.school_id = school.school_id LEFT JOIN district ON school.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE domain.school_id='%s';";
 		$res = database::retrieve($sql, array($school_id));
 		$ret = array();
 		while($row = database::get_row($res)) {
@@ -66,7 +66,7 @@ class domain_model {
 	}
 
 	public function populate_list_user() {
-		$this -> list_user = user::list_by_domain_id($this -> domain_id);
+		$this -> list_user = user_model::list_by_domain_id($this -> domain_id);
 	}
 
 	public function insert() {

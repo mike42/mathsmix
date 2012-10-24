@@ -4,6 +4,15 @@ class user_controller {
 		core::loadClass("user_model");
 	}
 	
+	public function home() {
+		if($user = session::getUser()) {
+			return array('user' => $user);
+		} else {
+			core::redirect(core::constructURL("user", "login", array(''), "html"));
+			return;
+		}
+	}
+	
 	public function login() {
 		if(isset($_POST['user_email']) && isset($_POST['user_password'])) {
 			// TODO: Implement local logins */
@@ -45,9 +54,7 @@ class user_controller {
 		    			return array('error' => '500', 'message' => 'Email address returned by authentication server was invalid.');
 		    		}
 		    		
-		    		if($user = user_model::get_by_user_email($attributes['contact/email'])) {
-						die("User exists");
-		    		} else {
+		    		if(!$user = user_model::get_by_user_email($attributes['contact/email'])) {
 		    			$part = explode('@', $attributes['contact/email']);
 		    			if($domain = domain_model::get_by_domain_host($part[1])) {
 		    				$newUser = new user_model();
@@ -57,14 +64,15 @@ class user_controller {
 		    				$newUser -> domain_id = $domain -> domain_id;
 		    				$newUser -> user_role = $domain -> domain_defaultrole;
 		    				$newUser -> user_id = $newUser -> insert();
-		    				print_r($domain);
-		    				die();
+		    				
+		    				$user = user_model::get($newUser -> user_id);
 		    			} else {
 		    				die("No such domain ".$part[1]);
 		    			}
 		    		}
 
-		    		die();
+		    		session::loginUser($user);
+		    		core::redirect(core::constructURL("user", "home", array(''), "html"));
 					return;
 		    	} else {
 		    		core::redirect(core::constructURL("user", "login", array(''), "html"));

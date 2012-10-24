@@ -25,7 +25,7 @@ class country_model {
 	}
 
 	public static function get($country_iso) {
-		$sql = "SELECT * FROM country WHERE country_iso='%s'";
+		$sql = "SELECT * FROM country WHERE country.country_iso='%s'";
 		$res = database::retrieve($sql, array($country_iso));
 		if($row = database::get_row($res)) {
 			return new country_model($row);
@@ -34,7 +34,7 @@ class country_model {
 	}
 
 	public function populate_list_district() {
-		$this -> list_district = district::list_by_country_iso($this -> country_iso);
+		$this -> list_district = district_model::list_by_country_iso($this -> country_iso);
 	}
 
 	public function insert() {

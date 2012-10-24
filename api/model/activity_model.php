@@ -43,7 +43,7 @@ class activity_model {
 	}
 
 	public static function get($activity_id) {
-		$sql = "SELECT * FROM activity LEFT JOIN activity_template ON activity.at_id = activity_template.at_id LEFT JOIN user ON activity.user_id = user.user_id LEFT JOIN domain ON user.domain_id = domain.domain_id LEFT JOIN school ON domain.school_id = school.school_id LEFT JOIN district ON school.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE activity_id='%s'";
+		$sql = "SELECT * FROM activity LEFT JOIN activity_template ON activity.at_id = activity_template.at_id LEFT JOIN user ON activity.user_id = user.user_id LEFT JOIN domain ON user.domain_id = domain.domain_id LEFT JOIN school ON domain.school_id = school.school_id LEFT JOIN district ON school.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE activity.activity_id='%s'";
 		$res = database::retrieve($sql, array($activity_id));
 		if($row = database::get_row($res)) {
 			return new activity_model($row);
@@ -52,7 +52,7 @@ class activity_model {
 	}
 
 	public static function list_by_at_id($at_id) {
-		$sql = "SELECT * FROM activity LEFT JOIN activity_template ON activity.at_id = activity_template.at_id LEFT JOIN user ON activity.user_id = user.user_id LEFT JOIN domain ON user.domain_id = domain.domain_id LEFT JOIN school ON domain.school_id = school.school_id LEFT JOIN district ON school.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE at_id='%s';";
+		$sql = "SELECT * FROM activity LEFT JOIN activity_template ON activity.at_id = activity_template.at_id LEFT JOIN user ON activity.user_id = user.user_id LEFT JOIN domain ON user.domain_id = domain.domain_id LEFT JOIN school ON domain.school_id = school.school_id LEFT JOIN district ON school.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE activity.at_id='%s';";
 		$res = database::retrieve($sql, array($at_id));
 		$ret = array();
 		while($row = database::get_row($res)) {
@@ -62,7 +62,7 @@ class activity_model {
 	}
 
 	public static function list_by_user_id($user_id) {
-		$sql = "SELECT * FROM activity LEFT JOIN activity_template ON activity.at_id = activity_template.at_id LEFT JOIN user ON activity.user_id = user.user_id LEFT JOIN domain ON user.domain_id = domain.domain_id LEFT JOIN school ON domain.school_id = school.school_id LEFT JOIN district ON school.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE user_id='%s';";
+		$sql = "SELECT * FROM activity LEFT JOIN activity_template ON activity.at_id = activity_template.at_id LEFT JOIN user ON activity.user_id = user.user_id LEFT JOIN domain ON user.domain_id = domain.domain_id LEFT JOIN school ON domain.school_id = school.school_id LEFT JOIN district ON school.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE activity.user_id='%s';";
 		$res = database::retrieve($sql, array($user_id));
 		$ret = array();
 		while($row = database::get_row($res)) {
@@ -72,11 +72,11 @@ class activity_model {
 	}
 
 	public function populate_list_activity_question() {
-		$this -> list_activity_question = activity_question::list_by_activity_id($this -> activity_id);
+		$this -> list_activity_question = activity_question_model::list_by_activity_id($this -> activity_id);
 	}
 
 	public function populate_list_task() {
-		$this -> list_task = task::list_by_activity_id($this -> activity_id);
+		$this -> list_task = task_model::list_by_activity_id($this -> activity_id);
 	}
 
 	public function insert() {

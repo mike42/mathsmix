@@ -31,7 +31,7 @@ class attends_model {
 	}
 
 	public static function get($user_id, $class_id) {
-		$sql = "SELECT * FROM attends LEFT JOIN user ON attends.user_id = user.user_id LEFT JOIN classes ON attends.class_id = classes.class_id LEFT JOIN domain ON user.domain_id = domain.domain_id LEFT JOIN year_level ON classes.yl_id = year_level.yl_id LEFT JOIN school ON classes.school_id = school.school_id LEFT JOIN district ON year_level.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE user_id='%s' AND class_id='%s'";
+		$sql = "SELECT * FROM attends LEFT JOIN user ON attends.user_id = user.user_id LEFT JOIN classes ON attends.class_id = classes.class_id LEFT JOIN domain ON user.domain_id = domain.domain_id LEFT JOIN year_level ON classes.yl_id = year_level.yl_id LEFT JOIN school ON classes.school_id = school.school_id LEFT JOIN district ON year_level.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE attends.user_id='%s' AND attends.class_id='%s'";
 		$res = database::retrieve($sql, array($user_id, $class_id));
 		if($row = database::get_row($res)) {
 			return new attends_model($row);
@@ -40,7 +40,7 @@ class attends_model {
 	}
 
 	public static function list_by_user_id($user_id) {
-		$sql = "SELECT * FROM attends LEFT JOIN user ON attends.user_id = user.user_id LEFT JOIN classes ON attends.class_id = classes.class_id LEFT JOIN domain ON user.domain_id = domain.domain_id LEFT JOIN year_level ON classes.yl_id = year_level.yl_id LEFT JOIN school ON classes.school_id = school.school_id LEFT JOIN district ON year_level.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE user_id='%s';";
+		$sql = "SELECT * FROM attends LEFT JOIN user ON attends.user_id = user.user_id LEFT JOIN classes ON attends.class_id = classes.class_id LEFT JOIN domain ON user.domain_id = domain.domain_id LEFT JOIN year_level ON classes.yl_id = year_level.yl_id LEFT JOIN school ON classes.school_id = school.school_id LEFT JOIN district ON year_level.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE attends.user_id='%s';";
 		$res = database::retrieve($sql, array($user_id));
 		$ret = array();
 		while($row = database::get_row($res)) {
@@ -50,7 +50,7 @@ class attends_model {
 	}
 
 	public static function list_by_class_id($class_id) {
-		$sql = "SELECT * FROM attends LEFT JOIN user ON attends.user_id = user.user_id LEFT JOIN classes ON attends.class_id = classes.class_id LEFT JOIN domain ON user.domain_id = domain.domain_id LEFT JOIN year_level ON classes.yl_id = year_level.yl_id LEFT JOIN school ON classes.school_id = school.school_id LEFT JOIN district ON year_level.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE class_id='%s';";
+		$sql = "SELECT * FROM attends LEFT JOIN user ON attends.user_id = user.user_id LEFT JOIN classes ON attends.class_id = classes.class_id LEFT JOIN domain ON user.domain_id = domain.domain_id LEFT JOIN year_level ON classes.yl_id = year_level.yl_id LEFT JOIN school ON classes.school_id = school.school_id LEFT JOIN district ON year_level.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE attends.class_id='%s';";
 		$res = database::retrieve($sql, array($class_id));
 		$ret = array();
 		while($row = database::get_row($res)) {

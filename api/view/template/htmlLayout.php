@@ -13,6 +13,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
 	<link rel="stylesheet" id="responsive-style-css" href="<?php echo $config['webroot']; ?>style/style.css"	type="text/css" media="all">
+	<link rel="stylesheet" id="responsive-style-css" href="<?php echo $config['webroot']; ?>style/mathsmix.css"	type="text/css" media="all">
 	<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
 	<script type="text/javascript" src="<?php echo $config['webroot']; ?>style/js/responsive-modernizr.js"></script>
 	

@@ -40,7 +40,7 @@ class year_level_model {
 	}
 
 	public static function get($yl_id) {
-		$sql = "SELECT * FROM year_level LEFT JOIN district ON year_level.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE yl_id='%s'";
+		$sql = "SELECT * FROM year_level LEFT JOIN district ON year_level.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE year_level.yl_id='%s'";
 		$res = database::retrieve($sql, array($yl_id));
 		if($row = database::get_row($res)) {
 			return new year_level_model($row);
@@ -49,7 +49,7 @@ class year_level_model {
 	}
 
 	public static function get_by_yl_level($yl_level, $district_id) {
-		$sql = "SELECT * FROM year_level LEFT JOIN district ON year_level.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE yl_level='%s' AND district_id='%s'";
+		$sql = "SELECT * FROM year_level LEFT JOIN district ON year_level.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE year_level.yl_level='%s' AND year_level.district_id='%s'";
 		$res = database::retrieve($sql, array($yl_level, $district_id));
 		if($row = database::get_row($res)) {
 			return new year_level_model($row);
@@ -58,7 +58,7 @@ class year_level_model {
 	}
 
 	public static function get_by_yl_name($yl_name, $district_id) {
-		$sql = "SELECT * FROM year_level LEFT JOIN district ON year_level.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE yl_name='%s' AND district_id='%s'";
+		$sql = "SELECT * FROM year_level LEFT JOIN district ON year_level.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE year_level.yl_name='%s' AND year_level.district_id='%s'";
 		$res = database::retrieve($sql, array($yl_name, $district_id));
 		if($row = database::get_row($res)) {
 			return new year_level_model($row);
@@ -67,7 +67,7 @@ class year_level_model {
 	}
 
 	public static function list_by_district_id($district_id) {
-		$sql = "SELECT * FROM year_level LEFT JOIN district ON year_level.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE district_id='%s';";
+		$sql = "SELECT * FROM year_level LEFT JOIN district ON year_level.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE year_level.district_id='%s';";
 		$res = database::retrieve($sql, array($district_id));
 		$ret = array();
 		while($row = database::get_row($res)) {
@@ -77,11 +77,11 @@ class year_level_model {
 	}
 
 	public function populate_list_classes() {
-		$this -> list_classes = classes::list_by_yl_id($this -> yl_id);
+		$this -> list_classes = classes_model::list_by_yl_id($this -> yl_id);
 	}
 
 	public function populate_list_task_template() {
-		$this -> list_task_template = task_template::list_by_yl_id($this -> yl_id);
+		$this -> list_task_template = task_template_model::list_by_yl_id($this -> yl_id);
 	}
 
 	public function insert() {

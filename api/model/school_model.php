@@ -42,7 +42,7 @@ class school_model {
 	}
 
 	public static function get($school_id) {
-		$sql = "SELECT * FROM school LEFT JOIN district ON school.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE school_id='%s'";
+		$sql = "SELECT * FROM school LEFT JOIN district ON school.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE school.school_id='%s'";
 		$res = database::retrieve($sql, array($school_id));
 		if($row = database::get_row($res)) {
 			return new school_model($row);
@@ -51,7 +51,7 @@ class school_model {
 	}
 
 	public static function list_by_district_id($district_id) {
-		$sql = "SELECT * FROM school LEFT JOIN district ON school.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE district_id='%s';";
+		$sql = "SELECT * FROM school LEFT JOIN district ON school.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE school.district_id='%s';";
 		$res = database::retrieve($sql, array($district_id));
 		$ret = array();
 		while($row = database::get_row($res)) {
@@ -61,11 +61,11 @@ class school_model {
 	}
 
 	public function populate_list_classes() {
-		$this -> list_classes = classes::list_by_school_id($this -> school_id);
+		$this -> list_classes = classes_model::list_by_school_id($this -> school_id);
 	}
 
 	public function populate_list_domain() {
-		$this -> list_domain = domain::list_by_school_id($this -> school_id);
+		$this -> list_domain = domain_model::list_by_school_id($this -> school_id);
 	}
 
 	public function insert() {

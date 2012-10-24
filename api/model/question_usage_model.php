@@ -43,7 +43,7 @@ class question_usage_model {
 	}
 
 	public static function get($qu_id) {
-		$sql = "SELECT * FROM question_usage LEFT JOIN question_viewer ON question_usage.qv_id = question_viewer.qv_id LEFT JOIN question_maker ON question_usage.qm_id = question_maker.qm_id WHERE qu_id='%s'";
+		$sql = "SELECT * FROM question_usage LEFT JOIN question_viewer ON question_usage.qv_id = question_viewer.qv_id LEFT JOIN question_maker ON question_usage.qm_id = question_maker.qm_id WHERE question_usage.qu_id='%s'";
 		$res = database::retrieve($sql, array($qu_id));
 		if($row = database::get_row($res)) {
 			return new question_usage_model($row);
@@ -52,7 +52,7 @@ class question_usage_model {
 	}
 
 	public static function list_by_qm_id($qm_id) {
-		$sql = "SELECT * FROM question_usage LEFT JOIN question_viewer ON question_usage.qv_id = question_viewer.qv_id LEFT JOIN question_maker ON question_usage.qm_id = question_maker.qm_id WHERE qm_id='%s';";
+		$sql = "SELECT * FROM question_usage LEFT JOIN question_viewer ON question_usage.qv_id = question_viewer.qv_id LEFT JOIN question_maker ON question_usage.qm_id = question_maker.qm_id WHERE question_usage.qm_id='%s';";
 		$res = database::retrieve($sql, array($qm_id));
 		$ret = array();
 		while($row = database::get_row($res)) {
@@ -62,7 +62,7 @@ class question_usage_model {
 	}
 
 	public static function list_by_qv_id($qv_id) {
-		$sql = "SELECT * FROM question_usage LEFT JOIN question_viewer ON question_usage.qv_id = question_viewer.qv_id LEFT JOIN question_maker ON question_usage.qm_id = question_maker.qm_id WHERE qv_id='%s';";
+		$sql = "SELECT * FROM question_usage LEFT JOIN question_viewer ON question_usage.qv_id = question_viewer.qv_id LEFT JOIN question_maker ON question_usage.qm_id = question_maker.qm_id WHERE question_usage.qv_id='%s';";
 		$res = database::retrieve($sql, array($qv_id));
 		$ret = array();
 		while($row = database::get_row($res)) {
@@ -72,7 +72,7 @@ class question_usage_model {
 	}
 
 	public function populate_list_activity_template_qm() {
-		$this -> list_activity_template_qm = activity_template_qm::list_by_qu_id($this -> qu_id);
+		$this -> list_activity_template_qm = activity_template_qm_model::list_by_qu_id($this -> qu_id);
 	}
 
 	public function insert() {

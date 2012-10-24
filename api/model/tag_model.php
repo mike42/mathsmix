@@ -25,7 +25,7 @@ class tag_model {
 	}
 
 	public static function get($tag_id) {
-		$sql = "SELECT * FROM tag WHERE tag_id='%s'";
+		$sql = "SELECT * FROM tag WHERE tag.tag_id='%s'";
 		$res = database::retrieve($sql, array($tag_id));
 		if($row = database::get_row($res)) {
 			return new tag_model($row);
@@ -34,7 +34,7 @@ class tag_model {
 	}
 
 	public function populate_list_tag_qm() {
-		$this -> list_tag_qm = tag_qm::list_by_tag_id($this -> tag_id);
+		$this -> list_tag_qm = tag_qm_model::list_by_tag_id($this -> tag_id);
 	}
 
 	public function insert() {

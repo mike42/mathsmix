@@ -33,7 +33,7 @@ class year_week_model {
 	}
 
 	public static function get($yw_id) {
-		$sql = "SELECT * FROM year_week WHERE yw_id='%s'";
+		$sql = "SELECT * FROM year_week WHERE year_week.yw_id='%s'";
 		$res = database::retrieve($sql, array($yw_id));
 		if($row = database::get_row($res)) {
 			return new year_week_model($row);
@@ -42,7 +42,7 @@ class year_week_model {
 	}
 
 	public static function get_by_yw_yearwk($yw_year, $yw_week) {
-		$sql = "SELECT * FROM year_week WHERE yw_year='%s' AND yw_week='%s'";
+		$sql = "SELECT * FROM year_week WHERE year_week.yw_year='%s' AND year_week.yw_week='%s'";
 		$res = database::retrieve($sql, array($yw_year, $yw_week));
 		if($row = database::get_row($res)) {
 			return new year_week_model($row);
@@ -51,7 +51,7 @@ class year_week_model {
 	}
 
 	public static function list_by_yw_year($yw_year) {
-		$sql = "SELECT * FROM year_week WHERE yw_year='%s';";
+		$sql = "SELECT * FROM year_week WHERE year_week.yw_year='%s';";
 		$res = database::retrieve($sql, array($yw_year));
 		$ret = array();
 		while($row = database::get_row($res)) {
@@ -61,11 +61,11 @@ class year_week_model {
 	}
 
 	public function populate_list_class_selection() {
-		$this -> list_class_selection = class_selection::list_by_yw_id($this -> yw_id);
+		$this -> list_class_selection = class_selection_model::list_by_yw_id($this -> yw_id);
 	}
 
 	public function populate_list_task() {
-		$this -> list_task = task::list_by_yw_id($this -> yw_id);
+		$this -> list_task = task_model::list_by_yw_id($this -> yw_id);
 	}
 
 	public function insert() {

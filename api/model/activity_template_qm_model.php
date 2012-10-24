@@ -43,7 +43,7 @@ class activity_template_qm_model {
 	}
 
 	public static function get($atqm_id) {
-		$sql = "SELECT * FROM activity_template_qm LEFT JOIN activity_template ON activity_template_qm.at_id = activity_template.at_id LEFT JOIN question_usage ON activity_template_qm.qu_id = question_usage.qu_id LEFT JOIN user ON activity_template.user_id = user.user_id LEFT JOIN question_viewer ON question_usage.qv_id = question_viewer.qv_id LEFT JOIN question_maker ON question_usage.qm_id = question_maker.qm_id LEFT JOIN domain ON user.domain_id = domain.domain_id LEFT JOIN school ON domain.school_id = school.school_id LEFT JOIN district ON school.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE atqm_id='%s'";
+		$sql = "SELECT * FROM activity_template_qm LEFT JOIN activity_template ON activity_template_qm.at_id = activity_template.at_id LEFT JOIN question_usage ON activity_template_qm.qu_id = question_usage.qu_id LEFT JOIN user ON activity_template.user_id = user.user_id LEFT JOIN question_viewer ON question_usage.qv_id = question_viewer.qv_id LEFT JOIN question_maker ON question_usage.qm_id = question_maker.qm_id LEFT JOIN domain ON user.domain_id = domain.domain_id LEFT JOIN school ON domain.school_id = school.school_id LEFT JOIN district ON school.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE activity_template_qm.atqm_id='%s'";
 		$res = database::retrieve($sql, array($atqm_id));
 		if($row = database::get_row($res)) {
 			return new activity_template_qm_model($row);
@@ -52,7 +52,7 @@ class activity_template_qm_model {
 	}
 
 	public static function get_by_activity_template($at_id, $atqm_no) {
-		$sql = "SELECT * FROM activity_template_qm LEFT JOIN activity_template ON activity_template_qm.at_id = activity_template.at_id LEFT JOIN question_usage ON activity_template_qm.qu_id = question_usage.qu_id LEFT JOIN user ON activity_template.user_id = user.user_id LEFT JOIN question_viewer ON question_usage.qv_id = question_viewer.qv_id LEFT JOIN question_maker ON question_usage.qm_id = question_maker.qm_id LEFT JOIN domain ON user.domain_id = domain.domain_id LEFT JOIN school ON domain.school_id = school.school_id LEFT JOIN district ON school.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE at_id='%s' AND atqm_no='%s'";
+		$sql = "SELECT * FROM activity_template_qm LEFT JOIN activity_template ON activity_template_qm.at_id = activity_template.at_id LEFT JOIN question_usage ON activity_template_qm.qu_id = question_usage.qu_id LEFT JOIN user ON activity_template.user_id = user.user_id LEFT JOIN question_viewer ON question_usage.qv_id = question_viewer.qv_id LEFT JOIN question_maker ON question_usage.qm_id = question_maker.qm_id LEFT JOIN domain ON user.domain_id = domain.domain_id LEFT JOIN school ON domain.school_id = school.school_id LEFT JOIN district ON school.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE activity_template_qm.at_id='%s' AND activity_template_qm.atqm_no='%s'";
 		$res = database::retrieve($sql, array($at_id, $atqm_no));
 		if($row = database::get_row($res)) {
 			return new activity_template_qm_model($row);
@@ -61,7 +61,7 @@ class activity_template_qm_model {
 	}
 
 	public static function list_by_qu_id($qu_id) {
-		$sql = "SELECT * FROM activity_template_qm LEFT JOIN activity_template ON activity_template_qm.at_id = activity_template.at_id LEFT JOIN question_usage ON activity_template_qm.qu_id = question_usage.qu_id LEFT JOIN user ON activity_template.user_id = user.user_id LEFT JOIN question_viewer ON question_usage.qv_id = question_viewer.qv_id LEFT JOIN question_maker ON question_usage.qm_id = question_maker.qm_id LEFT JOIN domain ON user.domain_id = domain.domain_id LEFT JOIN school ON domain.school_id = school.school_id LEFT JOIN district ON school.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE qu_id='%s';";
+		$sql = "SELECT * FROM activity_template_qm LEFT JOIN activity_template ON activity_template_qm.at_id = activity_template.at_id LEFT JOIN question_usage ON activity_template_qm.qu_id = question_usage.qu_id LEFT JOIN user ON activity_template.user_id = user.user_id LEFT JOIN question_viewer ON question_usage.qv_id = question_viewer.qv_id LEFT JOIN question_maker ON question_usage.qm_id = question_maker.qm_id LEFT JOIN domain ON user.domain_id = domain.domain_id LEFT JOIN school ON domain.school_id = school.school_id LEFT JOIN district ON school.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE activity_template_qm.qu_id='%s';";
 		$res = database::retrieve($sql, array($qu_id));
 		$ret = array();
 		while($row = database::get_row($res)) {
@@ -71,7 +71,7 @@ class activity_template_qm_model {
 	}
 
 	public static function list_by_at_id($at_id) {
-		$sql = "SELECT * FROM activity_template_qm LEFT JOIN activity_template ON activity_template_qm.at_id = activity_template.at_id LEFT JOIN question_usage ON activity_template_qm.qu_id = question_usage.qu_id LEFT JOIN user ON activity_template.user_id = user.user_id LEFT JOIN question_viewer ON question_usage.qv_id = question_viewer.qv_id LEFT JOIN question_maker ON question_usage.qm_id = question_maker.qm_id LEFT JOIN domain ON user.domain_id = domain.domain_id LEFT JOIN school ON domain.school_id = school.school_id LEFT JOIN district ON school.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE at_id='%s';";
+		$sql = "SELECT * FROM activity_template_qm LEFT JOIN activity_template ON activity_template_qm.at_id = activity_template.at_id LEFT JOIN question_usage ON activity_template_qm.qu_id = question_usage.qu_id LEFT JOIN user ON activity_template.user_id = user.user_id LEFT JOIN question_viewer ON question_usage.qv_id = question_viewer.qv_id LEFT JOIN question_maker ON question_usage.qm_id = question_maker.qm_id LEFT JOIN domain ON user.domain_id = domain.domain_id LEFT JOIN school ON domain.school_id = school.school_id LEFT JOIN district ON school.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE activity_template_qm.at_id='%s';";
 		$res = database::retrieve($sql, array($at_id));
 		$ret = array();
 		while($row = database::get_row($res)) {
@@ -81,7 +81,7 @@ class activity_template_qm_model {
 	}
 
 	public function populate_list_activity_question() {
-		$this -> list_activity_question = activity_question::list_by_atqm_id($this -> atqm_id);
+		$this -> list_activity_question = activity_question_model::list_by_atqm_id($this -> atqm_id);
 	}
 
 	public function insert() {

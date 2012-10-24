@@ -49,7 +49,7 @@ class classes_model {
 	}
 
 	public static function get($class_id) {
-		$sql = "SELECT * FROM classes LEFT JOIN year_level ON classes.yl_id = year_level.yl_id LEFT JOIN school ON classes.school_id = school.school_id LEFT JOIN district ON year_level.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE class_id='%s'";
+		$sql = "SELECT * FROM classes LEFT JOIN year_level ON classes.yl_id = year_level.yl_id LEFT JOIN school ON classes.school_id = school.school_id LEFT JOIN district ON year_level.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE classes.class_id='%s'";
 		$res = database::retrieve($sql, array($class_id));
 		if($row = database::get_row($res)) {
 			return new classes_model($row);
@@ -58,7 +58,7 @@ class classes_model {
 	}
 
 	public static function list_by_yl_id($yl_id) {
-		$sql = "SELECT * FROM classes LEFT JOIN year_level ON classes.yl_id = year_level.yl_id LEFT JOIN school ON classes.school_id = school.school_id LEFT JOIN district ON year_level.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE yl_id='%s';";
+		$sql = "SELECT * FROM classes LEFT JOIN year_level ON classes.yl_id = year_level.yl_id LEFT JOIN school ON classes.school_id = school.school_id LEFT JOIN district ON year_level.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE classes.yl_id='%s';";
 		$res = database::retrieve($sql, array($yl_id));
 		$ret = array();
 		while($row = database::get_row($res)) {
@@ -68,7 +68,7 @@ class classes_model {
 	}
 
 	public static function list_by_school_id($school_id) {
-		$sql = "SELECT * FROM classes LEFT JOIN year_level ON classes.yl_id = year_level.yl_id LEFT JOIN school ON classes.school_id = school.school_id LEFT JOIN district ON year_level.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE school_id='%s';";
+		$sql = "SELECT * FROM classes LEFT JOIN year_level ON classes.yl_id = year_level.yl_id LEFT JOIN school ON classes.school_id = school.school_id LEFT JOIN district ON year_level.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE classes.school_id='%s';";
 		$res = database::retrieve($sql, array($school_id));
 		$ret = array();
 		while($row = database::get_row($res)) {
@@ -78,7 +78,7 @@ class classes_model {
 	}
 
 	public static function list_by_yl_and_school($yl_id, $school_id) {
-		$sql = "SELECT * FROM classes LEFT JOIN year_level ON classes.yl_id = year_level.yl_id LEFT JOIN school ON classes.school_id = school.school_id LEFT JOIN district ON year_level.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE yl_id='%s' AND school_id='%s';";
+		$sql = "SELECT * FROM classes LEFT JOIN year_level ON classes.yl_id = year_level.yl_id LEFT JOIN school ON classes.school_id = school.school_id LEFT JOIN district ON year_level.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE classes.yl_id='%s' AND classes.school_id='%s';";
 		$res = database::retrieve($sql, array($yl_id, $school_id));
 		$ret = array();
 		while($row = database::get_row($res)) {
@@ -88,15 +88,15 @@ class classes_model {
 	}
 
 	public function populate_list_attends() {
-		$this -> list_attends = attends::list_by_class_id($this -> class_id);
+		$this -> list_attends = attends_model::list_by_class_id($this -> class_id);
 	}
 
 	public function populate_list_class_selection() {
-		$this -> list_class_selection = class_selection::list_by_class_id($this -> class_id);
+		$this -> list_class_selection = class_selection_model::list_by_class_id($this -> class_id);
 	}
 
 	public function populate_list_teaches() {
-		$this -> list_teaches = teaches::list_by_class_id($this -> class_id);
+		$this -> list_teaches = teaches_model::list_by_class_id($this -> class_id);
 	}
 
 	public function insert() {

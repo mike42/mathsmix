@@ -31,7 +31,7 @@ class tag_qm_model {
 	}
 
 	public static function get($qm_id, $tag_id) {
-		$sql = "SELECT * FROM tag_qm LEFT JOIN question_maker ON tag_qm.qm_id = question_maker.qm_id LEFT JOIN tag ON tag_qm.tag_id = tag.tag_id WHERE qm_id='%s' AND tag_id='%s'";
+		$sql = "SELECT * FROM tag_qm LEFT JOIN question_maker ON tag_qm.qm_id = question_maker.qm_id LEFT JOIN tag ON tag_qm.tag_id = tag.tag_id WHERE tag_qm.qm_id='%s' AND tag_qm.tag_id='%s'";
 		$res = database::retrieve($sql, array($qm_id, $tag_id));
 		if($row = database::get_row($res)) {
 			return new tag_qm_model($row);
@@ -40,7 +40,7 @@ class tag_qm_model {
 	}
 
 	public static function list_by_qm_id($qm_id) {
-		$sql = "SELECT * FROM tag_qm LEFT JOIN question_maker ON tag_qm.qm_id = question_maker.qm_id LEFT JOIN tag ON tag_qm.tag_id = tag.tag_id WHERE qm_id='%s';";
+		$sql = "SELECT * FROM tag_qm LEFT JOIN question_maker ON tag_qm.qm_id = question_maker.qm_id LEFT JOIN tag ON tag_qm.tag_id = tag.tag_id WHERE tag_qm.qm_id='%s';";
 		$res = database::retrieve($sql, array($qm_id));
 		$ret = array();
 		while($row = database::get_row($res)) {
@@ -50,7 +50,7 @@ class tag_qm_model {
 	}
 
 	public static function list_by_tag_id($tag_id) {
-		$sql = "SELECT * FROM tag_qm LEFT JOIN question_maker ON tag_qm.qm_id = question_maker.qm_id LEFT JOIN tag ON tag_qm.tag_id = tag.tag_id WHERE tag_id='%s';";
+		$sql = "SELECT * FROM tag_qm LEFT JOIN question_maker ON tag_qm.qm_id = question_maker.qm_id LEFT JOIN tag ON tag_qm.tag_id = tag.tag_id WHERE tag_qm.tag_id='%s';";
 		$res = database::retrieve($sql, array($tag_id));
 		$ret = array();
 		while($row = database::get_row($res)) {

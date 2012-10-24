@@ -42,7 +42,7 @@ class activity_template_model {
 	}
 
 	public static function get($at_id) {
-		$sql = "SELECT * FROM activity_template LEFT JOIN user ON activity_template.user_id = user.user_id LEFT JOIN domain ON user.domain_id = domain.domain_id LEFT JOIN school ON domain.school_id = school.school_id LEFT JOIN district ON school.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE at_id='%s'";
+		$sql = "SELECT * FROM activity_template LEFT JOIN user ON activity_template.user_id = user.user_id LEFT JOIN domain ON user.domain_id = domain.domain_id LEFT JOIN school ON domain.school_id = school.school_id LEFT JOIN district ON school.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE activity_template.at_id='%s'";
 		$res = database::retrieve($sql, array($at_id));
 		if($row = database::get_row($res)) {
 			return new activity_template_model($row);
@@ -51,7 +51,7 @@ class activity_template_model {
 	}
 
 	public static function list_by_user_id($user_id) {
-		$sql = "SELECT * FROM activity_template LEFT JOIN user ON activity_template.user_id = user.user_id LEFT JOIN domain ON user.domain_id = domain.domain_id LEFT JOIN school ON domain.school_id = school.school_id LEFT JOIN district ON school.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE user_id='%s';";
+		$sql = "SELECT * FROM activity_template LEFT JOIN user ON activity_template.user_id = user.user_id LEFT JOIN domain ON user.domain_id = domain.domain_id LEFT JOIN school ON domain.school_id = school.school_id LEFT JOIN district ON school.district_id = district.district_id LEFT JOIN country ON district.country_iso = country.country_iso WHERE activity_template.user_id='%s';";
 		$res = database::retrieve($sql, array($user_id));
 		$ret = array();
 		while($row = database::get_row($res)) {
@@ -61,15 +61,15 @@ class activity_template_model {
 	}
 
 	public function populate_list_activity() {
-		$this -> list_activity = activity::list_by_at_id($this -> at_id);
+		$this -> list_activity = activity_model::list_by_at_id($this -> at_id);
 	}
 
 	public function populate_list_activity_template_qm() {
-		$this -> list_activity_template_qm = activity_template_qm::list_by_at_id($this -> at_id);
+		$this -> list_activity_template_qm = activity_template_qm_model::list_by_at_id($this -> at_id);
 	}
 
 	public function populate_list_task_template() {
-		$this -> list_task_template = task_template::list_by_at_id($this -> at_id);
+		$this -> list_task_template = task_template_model::list_by_at_id($this -> at_id);
 	}
 
 	public function insert() {

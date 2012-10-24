@@ -40,7 +40,7 @@ class district_model {
 	}
 
 	public static function get($district_id) {
-		$sql = "SELECT * FROM district LEFT JOIN country ON district.country_iso = country.country_iso WHERE district_id='%s'";
+		$sql = "SELECT * FROM district LEFT JOIN country ON district.country_iso = country.country_iso WHERE district.district_id='%s'";
 		$res = database::retrieve($sql, array($district_id));
 		if($row = database::get_row($res)) {
 			return new district_model($row);
@@ -49,7 +49,7 @@ class district_model {
 	}
 
 	public static function list_by_country_iso($country_iso) {
-		$sql = "SELECT * FROM district LEFT JOIN country ON district.country_iso = country.country_iso WHERE country_iso='%s';";
+		$sql = "SELECT * FROM district LEFT JOIN country ON district.country_iso = country.country_iso WHERE district.country_iso='%s';";
 		$res = database::retrieve($sql, array($country_iso));
 		$ret = array();
 		while($row = database::get_row($res)) {
@@ -59,11 +59,11 @@ class district_model {
 	}
 
 	public function populate_list_school() {
-		$this -> list_school = school::list_by_district_id($this -> district_id);
+		$this -> list_school = school_model::list_by_district_id($this -> district_id);
 	}
 
 	public function populate_list_year_level() {
-		$this -> list_year_level = year_level::list_by_district_id($this -> district_id);
+		$this -> list_year_level = year_level_model::list_by_district_id($this -> district_id);
 	}
 
 	public function insert() {

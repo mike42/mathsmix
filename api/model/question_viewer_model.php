@@ -31,7 +31,7 @@ class question_viewer_model {
 	}
 
 	public static function get($qv_id) {
-		$sql = "SELECT * FROM question_viewer WHERE qv_id='%s'";
+		$sql = "SELECT * FROM question_viewer WHERE question_viewer.qv_id='%s'";
 		$res = database::retrieve($sql, array($qv_id));
 		if($row = database::get_row($res)) {
 			return new question_viewer_model($row);
@@ -40,11 +40,11 @@ class question_viewer_model {
 	}
 
 	public function populate_list_format_option() {
-		$this -> list_format_option = format_option::list_by_qv_id($this -> qv_id);
+		$this -> list_format_option = format_option_model::list_by_qv_id($this -> qv_id);
 	}
 
 	public function populate_list_question_usage() {
-		$this -> list_question_usage = question_usage::list_by_qv_id($this -> qv_id);
+		$this -> list_question_usage = question_usage_model::list_by_qv_id($this -> qv_id);
 	}
 
 	public function insert() {

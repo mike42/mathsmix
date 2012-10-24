@@ -31,7 +31,7 @@ class format_option_model {
 	}
 
 	public static function get($qv_id, $qm_id) {
-		$sql = "SELECT * FROM format_option LEFT JOIN question_viewer ON format_option.qv_id = question_viewer.qv_id LEFT JOIN question_maker ON format_option.qm_id = question_maker.qm_id WHERE qv_id='%s' AND qm_id='%s'";
+		$sql = "SELECT * FROM format_option LEFT JOIN question_viewer ON format_option.qv_id = question_viewer.qv_id LEFT JOIN question_maker ON format_option.qm_id = question_maker.qm_id WHERE format_option.qv_id='%s' AND format_option.qm_id='%s'";
 		$res = database::retrieve($sql, array($qv_id, $qm_id));
 		if($row = database::get_row($res)) {
 			return new format_option_model($row);
@@ -40,7 +40,7 @@ class format_option_model {
 	}
 
 	public static function list_by_qv_id($qv_id) {
-		$sql = "SELECT * FROM format_option LEFT JOIN question_viewer ON format_option.qv_id = question_viewer.qv_id LEFT JOIN question_maker ON format_option.qm_id = question_maker.qm_id WHERE qv_id='%s';";
+		$sql = "SELECT * FROM format_option LEFT JOIN question_viewer ON format_option.qv_id = question_viewer.qv_id LEFT JOIN question_maker ON format_option.qm_id = question_maker.qm_id WHERE format_option.qv_id='%s';";
 		$res = database::retrieve($sql, array($qv_id));
 		$ret = array();
 		while($row = database::get_row($res)) {
@@ -50,7 +50,7 @@ class format_option_model {
 	}
 
 	public static function list_by_qm_id($qm_id) {
-		$sql = "SELECT * FROM format_option LEFT JOIN question_viewer ON format_option.qv_id = question_viewer.qv_id LEFT JOIN question_maker ON format_option.qm_id = question_maker.qm_id WHERE qm_id='%s';";
+		$sql = "SELECT * FROM format_option LEFT JOIN question_viewer ON format_option.qv_id = question_viewer.qv_id LEFT JOIN question_maker ON format_option.qm_id = question_maker.qm_id WHERE format_option.qm_id='%s';";
 		$res = database::retrieve($sql, array($qm_id));
 		$ret = array();
 		while($row = database::get_row($res)) {

@@ -1,14 +1,16 @@
 <?php
 class user_view {
 	public function login_html($data) {
-		if(isset($data['error'])) {
-			/* Serve up error if needed */
-			loadClass("page_view");
-			page_view::error_html($data);
-			return;
-		}
-		
 		self::useTemplate("login", $data);
+	}
+	
+	public function home_html($data) {
+		self::useTemplate("home", $data);
+	}
+		
+	public function error_html($data) {
+		core::loadClass("page_view");
+		page_view::error_html($data);
 	}
 	
 	private function useTemplate($page, $data) {
@@ -16,4 +18,6 @@ class user_view {
 		$fn = dirname(__FILE__)."/template/".$template . ".inc";
 		include(dirname(__FILE__)."/template/htmlLayout.php");
 	}
+	
+	
 }
