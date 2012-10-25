@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 25, 2012 at 11:42 AM
+-- Generation Time: Oct 25, 2012 at 12:15 PM
 -- Server version: 5.5.24
 -- PHP Version: 5.3.10-1ubuntu3.4
 
@@ -233,7 +233,7 @@ CREATE TABLE IF NOT EXISTS `question_maker` (
   `qm_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`qm_id`),
   UNIQUE KEY `qm_class` (`qm_class`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 -- --------------------------------------------------------
 
@@ -260,13 +260,13 @@ CREATE TABLE IF NOT EXISTS `question_usage` (
 --
 
 CREATE TABLE IF NOT EXISTS `question_viewer` (
-  `qv_id` int(11) NOT NULL,
+  `qv_id` int(11) NOT NULL AUTO_INCREMENT,
   `qv_name` text NOT NULL,
   `qv_class` varchar(256) NOT NULL,
   `qv_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`qv_id`),
   UNIQUE KEY `qv_class` (`qv_class`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 -- --------------------------------------------------------
 

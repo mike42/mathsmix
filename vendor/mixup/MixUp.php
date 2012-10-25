@@ -1,12 +1,17 @@
 <?php
+/* Require base classes and invocation parsers */
+require_once(dirname(__FILE__). "/lib/QuestionMakerInvocation.php");
+require_once(dirname(__FILE__). "/lib/QuestionMaker.php");
+
+require_once(dirname(__FILE__). "/lib/QuestionViewerInvocation.php");
+require_once(dirname(__FILE__). "/lib/QuestionViewer.php");
+
 class MixUp {
 	/* Number of digits to perform all calculations to */
 	public static $PRECISION_MAX = 100;
 
 	public static function generateQuestion($string) {
 		/* Parse invocation */
-		require_once(dirname(__FILE__). "/lib/QuestionMakerInvocation.php");
-		require_once(dirname(__FILE__). "/lib/QuestionMaker.php");
 		$invocation = new QuestionMakerInvocation($string);
 
 		/* Generate question */
@@ -17,8 +22,6 @@ class MixUp {
 
 	public static function questionToHTML($string) {
 		/* Parse invocation */
-		require_once(dirname(__FILE__). "/lib/QuestionViewerInvocation.php");
-		require_once(dirname(__FILE__). "/lib/QuestionViewer.php");
 		$invocation = new QuestionViewerInvocation($string);
 		
 		/* Generate HTML */
