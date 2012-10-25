@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 24, 2012 at 08:17 AM
+-- Generation Time: Oct 25, 2012 at 11:42 AM
 -- Server version: 5.5.24
 -- PHP Version: 5.3.10-1ubuntu3.4
 
@@ -138,7 +138,7 @@ CREATE TABLE IF NOT EXISTS `classes` (
   KEY `yl_id` (`yl_id`),
   KEY `school_id` (`school_id`),
   KEY `yl_and_school` (`yl_id`,`school_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Classes' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Classes' AUTO_INCREMENT=16 ;
 
 -- --------------------------------------------------------
 
@@ -231,7 +231,8 @@ CREATE TABLE IF NOT EXISTS `question_maker` (
   `qm_name` text NOT NULL,
   `qm_class` varchar(256) NOT NULL,
   `qm_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`qm_id`)
+  PRIMARY KEY (`qm_id`),
+  UNIQUE KEY `qm_class` (`qm_class`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -263,7 +264,8 @@ CREATE TABLE IF NOT EXISTS `question_viewer` (
   `qv_name` text NOT NULL,
   `qv_class` varchar(256) NOT NULL,
   `qv_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`qv_id`)
+  PRIMARY KEY (`qv_id`),
+  UNIQUE KEY `qv_class` (`qv_class`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -387,7 +389,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `user_email` (`user_email`),
   KEY `domain_id` (`domain_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='User information' AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='User information' AUTO_INCREMENT=5 ;
 
 -- --------------------------------------------------------
 
@@ -405,7 +407,7 @@ CREATE TABLE IF NOT EXISTS `year_level` (
   UNIQUE KEY `yl_level` (`yl_level`,`district_id`),
   UNIQUE KEY `yl_name` (`yl_name`,`district_id`),
   KEY `district_id` (`district_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Year levels within a district' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Year levels within a district' AUTO_INCREMENT=7 ;
 
 -- --------------------------------------------------------
 

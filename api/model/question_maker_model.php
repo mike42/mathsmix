@@ -41,6 +41,15 @@ class question_maker_model {
 		return false;
 	}
 
+	public static function get_by_qm_class($qm_class) {
+		$sql = "SELECT * FROM question_maker WHERE question_maker.qm_class='%s'";
+		$res = database::retrieve($sql, array($qm_class));
+		if($row = database::get_row($res)) {
+			return new question_maker_model($row);
+		}
+		return false;
+	}
+
 	public function populate_list_format_option() {
 		$this -> list_format_option = format_option_model::list_by_qm_id($this -> qm_id);
 	}

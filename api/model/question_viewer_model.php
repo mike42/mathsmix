@@ -39,6 +39,15 @@ class question_viewer_model {
 		return false;
 	}
 
+	public static function get_by_qv_class($qv_class) {
+		$sql = "SELECT * FROM question_viewer WHERE question_viewer.qv_class='%s'";
+		$res = database::retrieve($sql, array($qv_class));
+		if($row = database::get_row($res)) {
+			return new question_viewer_model($row);
+		}
+		return false;
+	}
+
 	public function populate_list_format_option() {
 		$this -> list_format_option = format_option_model::list_by_qv_id($this -> qv_id);
 	}
