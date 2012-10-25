@@ -119,7 +119,7 @@ class user_model {
 	
 	/* Non-generated functions */
 	public static function list_attends_candidates($class_id) {
-		$sql = "select * from classes JOIN school ON classes.school_id = school.school_id join domain ON domain.school_id = school.school_id join user on user.domain_id = domain.domain_id left join attends on attends.user_id = user.user_id AND attends.class_id = classes.class_id where attends.user_id IS NULL AND  (user.user_role ='student' OR domain.domain_defaultrole ='student') AND classes.class_id ='%s' ORDER BY user.user_surname, user.user_firstname";
+		$sql = "select user.*, domain.*, school.*, classes.* from classes JOIN school ON classes.school_id = school.school_id join domain ON domain.school_id = school.school_id join user on user.domain_id = domain.domain_id left join attends on attends.user_id = user.user_id AND attends.class_id = classes.class_id where attends.user_id IS NULL AND  (user.user_role ='student' OR domain.domain_defaultrole ='student') AND classes.class_id ='%s' ORDER BY user.user_surname, user.user_firstname";
 		$res = database::retrieve($sql, array($class_id));
 		$ret = array();
 		while($row = database::get_row($res)) {
