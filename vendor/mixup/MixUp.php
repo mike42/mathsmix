@@ -29,7 +29,7 @@ class MixUp {
 		require_once(dirname(__FILE__). "/module/viewer/$class_name.php");
 		return call_user_func_array(array($class_name, "toHTML"), array($invocation));
 	}
-	
+
 	public static function onlyArray($input) {
 		foreach($input as $item) {
 			if(!is_array($item)) {
@@ -38,7 +38,7 @@ class MixUp {
 		}
 		return true;
 	}
-	
+
 	public static function onlyNumbers($input) {
 		foreach($input as $item) {
 			if(!is_numeric($item)) {
@@ -47,7 +47,7 @@ class MixUp {
 		}
 		return true;
 	}
-	
+
 	public static function noArray($input) {
 		foreach($input as $item) {
 			if(is_array($item)) {
