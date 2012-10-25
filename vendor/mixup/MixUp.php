@@ -1,30 +1,30 @@
 <?php
-function __autoload($class_name) {
-	switch(substr($class_name, 0 ,3)) {
-		case "QM_":
-			require_once(dirname(__FILE__). "/module/maker/$class_name.php");
-			break;
-		case "QV_":
-			require_once(dirname(__FILE__). "/module/viewer/$class_name.php");
-			break;
-		default:
-			require_once(dirname(__FILE__). "/lib/$class_name.php");
-	}
-}
-
 class MixUp {
 	/* Number of digits to perform all calculations to */
 	public static $PRECISION_MAX = 100;
 
 	public static function generateQuestion($string) {
+		/* Parse invocation */
+		require_once(dirname(__FILE__). "/lib/QuestionMakerInvocation.php");
+		require_once(dirname(__FILE__). "/lib/QuestionMaker.php");
 		$invocation = new QuestionMakerInvocation($string);
-		return call_user_func_array(array("QM_". $invocation -> maker, "make"), array($invocation));
+
+		/* Generate question */
+		$class_name = "QM_". $invocation -> maker;
+		require_once(dirname(__FILE__). "/module/maker/$class_name.php");
+		return call_user_func_array(array($class_name, "make"), array($invocation));
 	}
 
 	public static function questionToHTML($string) {
+		/* Parse invocation */
+		require_once(dirname(__FILE__). "/lib/QuestionViewerInvocation.php");
+		require_once(dirname(__FILE__). "/lib/QuestionViewer.php");
 		$invocation = new QuestionViewerInvocation($string);
-		return call_user_func_array(array("QV_". $invocation -> viewer, "toHTML"), array($invocation));
-		return false;
+		
+		/* Generate HTML */
+		$class_name = "QV_". $invocation -> viewer;
+		require_once(dirname(__FILE__). "/module/viewer/$class_name.php");
+		return call_user_func_array(array($class_name, "toHTML"), array($invocation));
 	}
 	
 	public static function onlyArray($input) {
