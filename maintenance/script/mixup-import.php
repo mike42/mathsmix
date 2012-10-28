@@ -30,8 +30,8 @@ function addMaker($qm_class) {
 	}
 	
 	/* Add usage examples */
-	require_once(dirname(__FILE__)."/../../vendor/mixup/module/maker/$maker");
-	$usage_str = $maker::listExamples();
+	require_once(dirname(__FILE__)."/../../vendor/mixup/module/maker/".$question_maker -> qm_class.".php");
+	$usage_str = call_user_func($question_maker -> qm_class . "::listExamples");
 	
 	$question_usages = question_usage_model::list_by_qm_id($question_maker -> qm_id);
 	foreach($question_usages as $qu) {
@@ -46,11 +46,17 @@ function addMaker($qm_class) {
 	foreach($usage_str as $usage) {
 		$inv = new QuestionMakerInvocation($usage);
 		
-		/* Load up */
-		$question_usage = new question_usage_model();
-		$question_usage -> qu_content
-		$question_usage -> qu_comment
-		$question_usage -> qu_id
+		if($question_viewer = question_viewer_model::get_by_qv_class("QV_". $inv -> viewer)) {
+			/* Load up */
+			$question_usage = new question_usage_model();
+			$question_usage -> qu_content = $inv -> invocation_string;
+			$question_usage -> qu_comment = $inv -> comment;
+			$question_usage -> qm_id = $question_maker -> qm_id;
+			$question_usage -> qv_id = $question_viewer -> qv_id;
+			$question_usage -> qu_id = $question_usage -> insert();
+		} else {
+			echo "Couldn't add this because the '".$inv -> viewer."' viewer was not found:\n\t".$usage."\n";
+		}
 	}
 }
 
