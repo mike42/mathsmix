@@ -12,6 +12,8 @@ class session {
 		self::$user = null;
 		core::loadClass('user_model');
 		session_start();
+		ini_set('session.gc_maxlifetime', 72000);
+		ini_set('session.cookie_lifetime', 0);
 		
 		if(isset($_SESSION['user_id'])) {
 			self::$user = user_model::get($_SESSION['user_id']);

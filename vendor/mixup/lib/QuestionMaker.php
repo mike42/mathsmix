@@ -75,11 +75,11 @@ abstract class QuestionMaker {
 				
 			if(count($invocation -> arg) == 2) {
 				/* Assume no decimal digits if not specified */
-				$invocation[] = "0";
+				$invocation -> arg[] = "0";
 			}
 			if(count($invocation -> arg) == 3) {
 				/* Assume non-negatives if not specified */
-				$invocation[] = "0";
+				$invocation -> arg[] = "0";
 			}
 			if(count($invocation -> arg) > 4) {
 				throw new Exception('Too many arguments');

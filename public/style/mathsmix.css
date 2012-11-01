@@ -28,3 +28,51 @@
 	margin-top: 0.3em;
 	border-bottom: 1px solid #ccc;
 }
+
+#search-result {
+	overflow: hidden;	
+}
+
+.question-usage-search {
+	float: right;
+	width: 25em;
+	border: 1px solid #ccc;	
+}
+
+.qv-inline input {
+ 	width: 4em;
+ 	text-align: center
+}
+
+.question-usage-comment {
+	color: #888;
+}
+
+.question-usage {
+	border-top: 1px solid #ccc;
+}
+
+.question-usage .question {
+	margin-left: 1em;
+}
+
+.question-usage:hover {
+	background-color: #eee;	
+}
+
+.question-usage input {
+	height: 1em;
+	width: 1em;
+	border: 1px solid #000;
+}
+
+.highlight {
+	background-color: #ff0;
+}
+
+#search-bar {
+	padding-right: 20px;
+	background-position: right;
+	background-repeat: no-repeat;
+	background-image: url('icons/search.png');
+}

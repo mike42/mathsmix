@@ -1,9 +1,5 @@
 <?php
 class activity_template_view {
-	function view_html($data) {
-		die("activity_template_view::view_html() unimplemented");
-	}
-	
 	function edit_html($data) {
 		
 		self::useTemplate('edit', $data);

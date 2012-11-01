@@ -84,5 +84,17 @@ class question_usage_model {
 		$sql = "UPDATE question_usage SET qu_comment, qv_id, qu_content, qm_id WHERE qu_id ='%s';";
 		return database::update($sql, array($this -> qu_comment, $this -> qv_id, $this -> qu_content, $this -> qm_id, $this -> qu_id));
 	}
+	
+	/* Non-generated functions */
+	public static function search_by_comment($keyword) {
+		$keyword = "%" . str_replace("%", "\%", $keyword) . "%";
+		$sql = "SELECT * FROM question_usage LEFT JOIN question_viewer ON question_usage.qv_id = question_viewer.qv_id LEFT JOIN question_maker ON question_usage.qm_id = question_maker.qm_id WHERE qu_comment LIKE '%s';";
+		$res = database::retrieve($sql, array($keyword));
+		$ret = array();
+		while($row = database::get_row($res)) {
+			$ret[] = new question_usage_model($row);
+		}
+		return $ret;
+	}
 }
 ?>

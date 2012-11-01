@@ -10,7 +10,7 @@ class QV_worded extends QuestionViewer {
 	}
 
 	public static function toHTML(QuestionViewerInvocation $invocation) {
-		return "<div class=\"qv-inline\">" . 
+		return "<div class=\"question qv-worded\">" . 
 				$invocation -> arg[0] . 
 				"<br /><input type=\"text\" value=\"\"/>" .
 				"</div>";
