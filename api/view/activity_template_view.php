@@ -1,7 +1,6 @@
 <?php
 class activity_template_view {
 	function edit_html($data) {
-		
 		self::useTemplate('edit', $data);
 	}
 	
