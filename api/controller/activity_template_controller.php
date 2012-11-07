@@ -5,6 +5,7 @@ class activity_template_controller {
 	public function init() {
 		self::$permissions = core::getPermissions('activity_template');
 		core::loadClass("activity_template_model");
+		core::loadClass("activity_question_model");
 		core::loadClass("MixUp");
 	}
 	
@@ -31,21 +32,20 @@ class activity_template_controller {
 		$activity -> user_id = $user -> user_id;
 		$activity -> activity_isgen = 1;
 		$activity -> activity_id = $activity -> insert();
-		
+		$activity_template_qm = new activity_template_qm_model();
+
 		/* Create questions */
 		foreach($activity_template -> list_activity_template_qm as $activity_template_qm) {
-			//$activity_template_qm -> ;
-			//$activity_template_qm
+			$activity_question = new activity_question_model();
+			$activity_question -> activity_id = $activity -> activity_id;
+			$activity_question -> atqm_id = $activity_template_qm -> atqm_id;
+			$activity_question -> aq_content = MixUp::generateQuestion($activity_template_qm -> question_usage -> qu_content);
+			$activity_question -> aq_id = $activity_question -> insert();
 		}
-		
-		
-		print_r($activity_template);
-		die();
-		
-		
-		
-		
-		return array('activity_template' => $activity_template);
+
+		/* Go to new activity */
+		core::redirect(core::constructURL('activity', 'view', array($activity -> activity_id), 'html'));
+		return;
 	}
 	
 	public function edit($at_id) {

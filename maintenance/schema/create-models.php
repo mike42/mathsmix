@@ -225,13 +225,25 @@ foreach($table as $name => $current) {
 	
 	$str .= "\t}\n";
 
-	$str .= "}\n";
+	$filename = $outp_folder.$name."_model.php";
+	$non_generated = "/* Non-generated functions */";
+	$has_non_generated = false;
+	if($current = file_get_contents($filename)) {
+		/* Add back non-generated functions */
+		$current = rtrim($current);
+		$current = explode($non_generated, $current);
+		if(count($current) == 2) {
+			$str .= "\n\t".$non_generated."\n\t".trim($current[1])."\n";
+			$has_non_generated = true;
+		}
+	}
+	if(!$has_non_generated) {
+		$str .= "}\n";
+		$str .= "?>";
+	}
 	
-	$str .= "?>";
-	
-	file_put_contents($outp_folder.$name."_model.php", $str);
+	file_put_contents($filename, $str);
 }
-//print_r($table);
 
 function get($table, $fname, $name, $current, $index) {
 	$fieldlist = $fieldlist_sql = array();

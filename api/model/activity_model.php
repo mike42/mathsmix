@@ -13,7 +13,7 @@ class activity_model {
 
 	/* Tables which reference this */
 	public $list_activity_question    = array();
-	public $list_task                 = array();
+	public $list_attempt              = array();
 
 	/**
 	 * Load all related models.
@@ -23,7 +23,7 @@ class activity_model {
 		core::loadClass("activity_template_model");
 		core::loadClass("user_model");
 		core::loadClass("activity_question_model");
-		core::loadClass("task_model");
+		core::loadClass("attempt_model");
 	}
 
 	/**
@@ -75,8 +75,8 @@ class activity_model {
 		$this -> list_activity_question = activity_question_model::list_by_activity_id($this -> activity_id);
 	}
 
-	public function populate_list_task() {
-		$this -> list_task = task_model::list_by_activity_id($this -> activity_id);
+	public function populate_list_attempt() {
+		$this -> list_attempt = attempt_model::list_by_activity_id($this -> activity_id);
 	}
 
 	public function insert() {

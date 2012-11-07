@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 25, 2012 at 12:15 PM
+-- Generation Time: Nov 08, 2012 at 08:52 AM
 -- Server version: 5.5.24
 -- PHP Version: 5.3.10-1ubuntu3.4
 
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `activity` (
   PRIMARY KEY (`activity_id`),
   KEY `at_id` (`at_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 -- --------------------------------------------------------
 
@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `activity_question` (
   PRIMARY KEY (`aq_id`),
   KEY `atqm_id` (`atqm_id`),
   KEY `activity_id` (`activity_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 -- --------------------------------------------------------
 
@@ -62,13 +62,13 @@ CREATE TABLE IF NOT EXISTS `activity_question` (
 
 CREATE TABLE IF NOT EXISTS `activity_question_response` (
   `aq_id` int(11) NOT NULL,
-  `task_id` int(11) NOT NULL,
+  `attempt_id` int(11) NOT NULL,
   `aqr_marks` decimal(4,3) NOT NULL,
   `aqr_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `aqr_response` text NOT NULL,
-  PRIMARY KEY (`aq_id`,`task_id`),
+  PRIMARY KEY (`aq_id`,`attempt_id`),
   KEY `aq_id` (`aq_id`),
-  KEY `task_id` (`task_id`)
+  KEY `attempt_id` (`attempt_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS `activity_template` (
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`at_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 -- --------------------------------------------------------
 
@@ -104,6 +104,20 @@ CREATE TABLE IF NOT EXISTS `activity_template_qm` (
   UNIQUE KEY `activity_template` (`at_id`,`atqm_no`),
   KEY `qu_id` (`qu_id`),
   KEY `at_id` (`at_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=53 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `attempt`
+--
+
+CREATE TABLE IF NOT EXISTS `attempt` (
+  `attempt_id` int(11) NOT NULL AUTO_INCREMENT,
+  `activity_id` int(11) NOT NULL,
+  `attempt_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`attempt_id`),
+  KEY `activity_id` (`activity_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -251,7 +265,7 @@ CREATE TABLE IF NOT EXISTS `question_usage` (
   PRIMARY KEY (`qu_id`),
   KEY `qm_id` (`qm_id`),
   KEY `qv_id` (`qv_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Stores ways of using QuestionMakers' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Stores ways of using QuestionMakers' AUTO_INCREMENT=5 ;
 
 -- --------------------------------------------------------
 
@@ -266,7 +280,7 @@ CREATE TABLE IF NOT EXISTS `question_viewer` (
   `qv_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`qv_id`),
   UNIQUE KEY `qv_class` (`qv_class`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 -- --------------------------------------------------------
 
@@ -324,13 +338,13 @@ CREATE TABLE IF NOT EXISTS `task` (
   `task_complete` int(1) NOT NULL,
   `task_grade` decimal(4,3) NOT NULL,
   `yw_id` int(11) NOT NULL,
-  `activity_id` int(11) NOT NULL,
+  `attempt_id` int(11) NOT NULL,
   `tt_id` int(11) NOT NULL,
   PRIMARY KEY (`task_id`),
-  KEY `activity_id` (`activity_id`),
   KEY `tt_id` (`tt_id`),
   KEY `user_id` (`user_id`),
-  KEY `yw_id` (`yw_id`)
+  KEY `yw_id` (`yw_id`),
+  KEY `attempt_id` (`attempt_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -449,7 +463,7 @@ ALTER TABLE `activity_question`
 --
 ALTER TABLE `activity_question_response`
   ADD CONSTRAINT `activity_question_response_ibfk_1` FOREIGN KEY (`aq_id`) REFERENCES `activity_question` (`aq_id`),
-  ADD CONSTRAINT `activity_question_response_ibfk_2` FOREIGN KEY (`task_id`) REFERENCES `task` (`task_id`);
+  ADD CONSTRAINT `activity_question_response_ibfk_2` FOREIGN KEY (`attempt_id`) REFERENCES `attempt` (`attempt_id`);
 
 --
 -- Constraints for table `activity_template`
@@ -463,6 +477,12 @@ ALTER TABLE `activity_template`
 ALTER TABLE `activity_template_qm`
   ADD CONSTRAINT `activity_template_qm_ibfk_1` FOREIGN KEY (`at_id`) REFERENCES `activity_template` (`at_id`),
   ADD CONSTRAINT `activity_template_qm_ibfk_2` FOREIGN KEY (`qu_id`) REFERENCES `question_usage` (`qu_id`);
+
+--
+-- Constraints for table `attempt`
+--
+ALTER TABLE `attempt`
+  ADD CONSTRAINT `attempt_ibfk_1` FOREIGN KEY (`activity_id`) REFERENCES `activity` (`activity_id`);
 
 --
 -- Constraints for table `attends`
@@ -530,9 +550,9 @@ ALTER TABLE `tag_qm`
 --
 ALTER TABLE `task`
   ADD CONSTRAINT `task_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
-  ADD CONSTRAINT `task_ibfk_4` FOREIGN KEY (`activity_id`) REFERENCES `activity` (`activity_id`),
   ADD CONSTRAINT `task_ibfk_5` FOREIGN KEY (`tt_id`) REFERENCES `task_template` (`tt_id`),
-  ADD CONSTRAINT `task_ibfk_6` FOREIGN KEY (`yw_id`) REFERENCES `year_week` (`yw_id`);
+  ADD CONSTRAINT `task_ibfk_6` FOREIGN KEY (`yw_id`) REFERENCES `year_week` (`yw_id`),
+  ADD CONSTRAINT `task_ibfk_7` FOREIGN KEY (`attempt_id`) REFERENCES `attempt` (`attempt_id`);
 
 --
 -- Constraints for table `task_template`

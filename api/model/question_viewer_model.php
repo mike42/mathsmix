@@ -57,8 +57,8 @@ class question_viewer_model {
 	}
 
 	public function insert() {
-		$sql = "INSERT INTO question_viewer(qv_id, qv_name, qv_class) VALUES ('%s', '%s', '%s');";
-		return database::insert($sql, array($this -> qv_id, $this -> qv_name, $this -> qv_class));
+		$sql = "INSERT INTO question_viewer(qv_name, qv_class) VALUES ('%s', '%s');";
+		return database::insert($sql, array($this -> qv_name, $this -> qv_class));
 	}
 
 	public function update() {

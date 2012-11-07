@@ -84,7 +84,7 @@ class question_usage_model {
 		$sql = "UPDATE question_usage SET qu_comment, qv_id, qu_content, qm_id WHERE qu_id ='%s';";
 		return database::update($sql, array($this -> qu_comment, $this -> qv_id, $this -> qu_content, $this -> qm_id, $this -> qu_id));
 	}
-	
+
 	/* Non-generated functions */
 	public static function search_by_comment($keyword) {
 		$keyword = "%" . str_replace("%", "\%", $keyword) . "%";
