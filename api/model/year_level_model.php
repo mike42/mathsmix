@@ -12,7 +12,6 @@ class year_level_model {
 
 	/* Tables which reference this */
 	public $list_classes              = array();
-	public $list_task_template        = array();
 
 	/**
 	 * Load all related models.
@@ -21,7 +20,6 @@ class year_level_model {
 		core::loadClass("database");
 		core::loadClass("district_model");
 		core::loadClass("classes_model");
-		core::loadClass("task_template_model");
 	}
 
 	/**
@@ -78,10 +76,6 @@ class year_level_model {
 
 	public function populate_list_classes() {
 		$this -> list_classes = classes_model::list_by_yl_id($this -> yl_id);
-	}
-
-	public function populate_list_task_template() {
-		$this -> list_task_template = task_template_model::list_by_yl_id($this -> yl_id);
 	}
 
 	public function insert() {

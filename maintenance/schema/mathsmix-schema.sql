@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 08, 2012 at 08:52 AM
+-- Generation Time: Nov 09, 2012 at 11:26 AM
 -- Server version: 5.5.24
 -- PHP Version: 5.3.10-1ubuntu3.4
 
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `activity` (
   PRIMARY KEY (`activity_id`),
   KEY `at_id` (`at_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 -- --------------------------------------------------------
 
@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `activity_question` (
   PRIMARY KEY (`aq_id`),
   KEY `atqm_id` (`atqm_id`),
   KEY `activity_id` (`activity_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 -- --------------------------------------------------------
 
@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS `activity_template` (
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`at_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
 -- --------------------------------------------------------
 
@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS `activity_template_qm` (
   UNIQUE KEY `activity_template` (`at_id`,`atqm_no`),
   KEY `qu_id` (`qu_id`),
   KEY `at_id` (`at_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=53 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=55 ;
 
 -- --------------------------------------------------------
 
@@ -118,7 +118,7 @@ CREATE TABLE IF NOT EXISTS `attempt` (
   `attempt_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`attempt_id`),
   KEY `activity_id` (`activity_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=87 ;
 
 -- --------------------------------------------------------
 
@@ -153,27 +153,6 @@ CREATE TABLE IF NOT EXISTS `classes` (
   KEY `school_id` (`school_id`),
   KEY `yl_and_school` (`yl_id`,`school_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Classes' AUTO_INCREMENT=16 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `class_selection`
---
-
-CREATE TABLE IF NOT EXISTS `class_selection` (
-  `class_id` int(11) NOT NULL,
-  `tt_id` int(11) NOT NULL,
-  `yw_id` int(11) NOT NULL,
-  `cs_due` datetime NOT NULL,
-  `cs_visible_from` datetime NOT NULL,
-  `cs_enabled` int(1) NOT NULL DEFAULT '0',
-  `cs_compulsory` int(11) NOT NULL DEFAULT '1',
-  `cs_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`class_id`,`tt_id`),
-  KEY `yw_id` (`yw_id`),
-  KEY `class_id` (`class_id`),
-  KEY `tt_id` (`tt_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Selection of coursework for the class to complete';
 
 -- --------------------------------------------------------
 
@@ -334,16 +313,15 @@ CREATE TABLE IF NOT EXISTS `tag_qm` (
 CREATE TABLE IF NOT EXISTS `task` (
   `task_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
-  `task_due` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `task_visible_from` datetime DEFAULT NULL,
+  `task_due` date NOT NULL,
   `task_complete` int(1) NOT NULL,
   `task_grade` decimal(4,3) NOT NULL,
-  `yw_id` int(11) NOT NULL,
   `attempt_id` int(11) NOT NULL,
   `tt_id` int(11) NOT NULL,
   PRIMARY KEY (`task_id`),
   KEY `tt_id` (`tt_id`),
   KEY `user_id` (`user_id`),
-  KEY `yw_id` (`yw_id`),
   KEY `attempt_id` (`attempt_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
@@ -356,18 +334,15 @@ CREATE TABLE IF NOT EXISTS `task` (
 CREATE TABLE IF NOT EXISTS `task_template` (
   `tt_id` int(11) NOT NULL AUTO_INCREMENT,
   `at_id` int(11) NOT NULL,
-  `yl_id` int(11) NOT NULL,
+  `class_id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `tt_name` text NOT NULL,
-  `tt_week` int(2) NOT NULL,
-  `tt_sequence` int(11) NOT NULL,
   `tt_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `tt_public` int(1) NOT NULL DEFAULT '0',
   `tt_shared` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`tt_id`),
   KEY `at_id` (`at_id`),
-  KEY `yl_id` (`yl_id`),
-  KEY `user_id` (`user_id`)
+  KEY `user_id` (`user_id`),
+  KEY `class_id` (`class_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Task templates for a given year level' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -422,23 +397,6 @@ CREATE TABLE IF NOT EXISTS `year_level` (
   UNIQUE KEY `yl_name` (`yl_name`,`district_id`),
   KEY `district_id` (`district_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Year levels within a district' AUTO_INCREMENT=7 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `year_week`
---
-
-CREATE TABLE IF NOT EXISTS `year_week` (
-  `yw_id` int(11) NOT NULL AUTO_INCREMENT,
-  `yw_year` year(4) NOT NULL,
-  `yw_week` int(2) NOT NULL,
-  `yw_start` datetime NOT NULL,
-  `yw_end` datetime NOT NULL,
-  PRIMARY KEY (`yw_id`),
-  UNIQUE KEY `yw_yearwk` (`yw_year`,`yw_week`),
-  KEY `yw_year` (`yw_year`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Listing of dates for weeks of the year' AUTO_INCREMENT=1 ;
 
 --
 -- Constraints for dumped tables
@@ -499,14 +457,6 @@ ALTER TABLE `classes`
   ADD CONSTRAINT `classes_ibfk_2` FOREIGN KEY (`school_id`) REFERENCES `school` (`school_id`);
 
 --
--- Constraints for table `class_selection`
---
-ALTER TABLE `class_selection`
-  ADD CONSTRAINT `class_selection_ibfk_1` FOREIGN KEY (`class_id`) REFERENCES `classes` (`class_id`),
-  ADD CONSTRAINT `class_selection_ibfk_2` FOREIGN KEY (`tt_id`) REFERENCES `task_template` (`tt_id`),
-  ADD CONSTRAINT `class_selection_ibfk_3` FOREIGN KEY (`yw_id`) REFERENCES `year_week` (`yw_id`);
-
---
 -- Constraints for table `district`
 --
 ALTER TABLE `district`
@@ -551,15 +501,14 @@ ALTER TABLE `tag_qm`
 ALTER TABLE `task`
   ADD CONSTRAINT `task_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
   ADD CONSTRAINT `task_ibfk_5` FOREIGN KEY (`tt_id`) REFERENCES `task_template` (`tt_id`),
-  ADD CONSTRAINT `task_ibfk_6` FOREIGN KEY (`yw_id`) REFERENCES `year_week` (`yw_id`),
   ADD CONSTRAINT `task_ibfk_7` FOREIGN KEY (`attempt_id`) REFERENCES `attempt` (`attempt_id`);
 
 --
 -- Constraints for table `task_template`
 --
 ALTER TABLE `task_template`
+  ADD CONSTRAINT `task_template_ibfk_4` FOREIGN KEY (`class_id`) REFERENCES `classes` (`class_id`),
   ADD CONSTRAINT `task_template_ibfk_1` FOREIGN KEY (`at_id`) REFERENCES `activity_template` (`at_id`),
-  ADD CONSTRAINT `task_template_ibfk_2` FOREIGN KEY (`yl_id`) REFERENCES `year_level` (`yl_id`),
   ADD CONSTRAINT `task_template_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
 
 --

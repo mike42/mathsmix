@@ -47,6 +47,6 @@ class activity_controller {
 	}
 	
 	public static function view($activity_id) {
-		die("activity_controller::view not implemented");
+		return self::attempt($activity_id, 'new');
 	}
 }

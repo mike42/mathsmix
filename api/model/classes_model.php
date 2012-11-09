@@ -15,7 +15,7 @@ class classes_model {
 
 	/* Tables which reference this */
 	public $list_attends              = array();
-	public $list_class_selection      = array();
+	public $list_task_template        = array();
 	public $list_teaches              = array();
 
 	/**
@@ -26,7 +26,7 @@ class classes_model {
 		core::loadClass("year_level_model");
 		core::loadClass("school_model");
 		core::loadClass("attends_model");
-		core::loadClass("class_selection_model");
+		core::loadClass("task_template_model");
 		core::loadClass("teaches_model");
 	}
 
@@ -91,8 +91,8 @@ class classes_model {
 		$this -> list_attends = attends_model::list_by_class_id($this -> class_id);
 	}
 
-	public function populate_list_class_selection() {
-		$this -> list_class_selection = class_selection_model::list_by_class_id($this -> class_id);
+	public function populate_list_task_template() {
+		$this -> list_task_template = task_template_model::list_by_class_id($this -> class_id);
 	}
 
 	public function populate_list_teaches() {
